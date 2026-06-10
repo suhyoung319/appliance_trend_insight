@@ -1,0 +1,114 @@
+@import "tailwindcss";
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Apple SD Gothic Neo', 'Noto Sans KR', 'Segoe UI', sans-serif;
+  background: #06060f;
+  color: white;
+  overflow-x: hidden;
+}
+
+#root { width: 100%; }
+
+/* ── Blob 애니메이션 ── */
+@keyframes blobFloat1 {
+  0%, 100% { transform: translate(0, 0) scale(1); }
+  33%       { transform: translate(50px, -40px) scale(1.08); }
+  66%       { transform: translate(-30px, 25px) scale(0.95); }
+}
+@keyframes blobFloat2 {
+  0%, 100% { transform: translate(0, 0) scale(1); }
+  33%       { transform: translate(-40px, 30px) scale(1.06); }
+  66%       { transform: translate(35px, -25px) scale(0.97); }
+}
+@keyframes blobFloat3 {
+  0%, 100% { transform: translate(0, 0) scale(1); }
+  50%       { transform: translate(30px, 40px) scale(1.05); }
+}
+
+/* ── 그라디언트 텍스트 ── */
+@keyframes gradientMove {
+  0%   { background-position: 0%; }
+  100% { background-position: 300%; }
+}
+.gradient-text {
+  background: linear-gradient(90deg, #818cf8, #c084fc, #f472b6, #818cf8);
+  background-size: 300%;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  animation: gradientMove 5s linear infinite;
+}
+
+/* ── 타이핑 커서 ── */
+@keyframes blink {
+  50% { border-color: transparent; }
+}
+
+/* ── 등장 애니메이션 ── */
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(28px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+/* ── 글래스 카드 ── */
+.glass {
+  background: rgba(255, 255, 255, 0.04);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+/* ── shimmer 스켈레톤 ── */
+@keyframes shimmer {
+  0%   { background-position: -200% 0; }
+  100% { background-position: 200% 0; }
+}
+.shimmer {
+  background: linear-gradient(90deg, #1a1a2e 25%, #25253a 50%, #1a1a2e 75%);
+  background-size: 200% 100%;
+  animation: shimmer 1.8s infinite;
+}
+
+/* ── 카드 호버 ── */
+.source-card {
+  transition: transform 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
+  cursor: default;
+}
+.source-card:hover {
+  transform: translateY(-6px);
+  border-color: rgba(129, 140, 248, 0.4) !important;
+  box-shadow: 0 20px 60px rgba(99, 102, 241, 0.15);
+}
+
+/* ── 버튼 glow ── */
+.btn-primary {
+  background: linear-gradient(135deg, #6366f1, #a855f7);
+  transition: all 0.3s ease;
+}
+.btn-primary:hover {
+  box-shadow: 0 0 30px rgba(99, 102, 241, 0.5), 0 0 60px rgba(99, 102, 241, 0.2);
+  transform: translateY(-2px);
+}
+
+/* ── 태그 호버 ── */
+.keyword-tag {
+  transition: all 0.2s ease;
+  cursor: pointer;
+}
+.keyword-tag:hover {
+  background: rgba(129, 140, 248, 0.2);
+  border-color: rgba(129, 140, 248, 0.5);
+  color: #c7d2fe;
+}
+
+/* ── 추천도 바 ── */
+@keyframes barGrow {
+  from { width: 0%; }
+  to   { width: var(--target-width); }
+}

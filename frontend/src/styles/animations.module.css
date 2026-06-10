@@ -1,0 +1,42 @@
+/* 초기 상태: 숨김 */
+.hidden {
+  opacity: 0;
+  transform: translateY(36px);
+}
+
+/* 뷰포트 진입 시: 나타남 */
+.visible {
+  opacity: 1;
+  transform: translateY(0);
+  transition: opacity 0.65s ease, transform 0.65s ease;
+}
+
+/* 왼쪽에서 슬라이드 */
+.hiddenLeft {
+  opacity: 0;
+  transform: translateX(-40px);
+}
+
+.visibleLeft {
+  opacity: 1;
+  transform: translateX(0);
+  transition: opacity 0.65s ease, transform 0.65s ease;
+}
+
+/* 오른쪽에서 슬라이드 */
+.hiddenRight {
+  opacity: 0;
+  transform: translateX(40px);
+}
+
+.visibleRight {
+  opacity: 1;
+  transform: translateX(0);
+  transition: opacity 0.65s ease, transform 0.65s ease;
+}
+
+/* 카드 순차 등장용 딜레이 */
+.delay0  { transition-delay: 0ms; }
+.delay100 { transition-delay: 100ms; }
+.delay200 { transition-delay: 200ms; }
+.delay300 { transition-delay: 300ms; }
