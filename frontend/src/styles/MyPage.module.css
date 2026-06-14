@@ -1,0 +1,239 @@
+.page {
+  min-height: 100vh;
+  background:
+    radial-gradient(circle at top left, rgba(99, 102, 241, 0.35), transparent 34%),
+    radial-gradient(circle at bottom right, rgba(168, 85, 247, 0.25), transparent 34%),
+    #070712;
+  color: white;
+  padding-top: 88px;
+}
+
+.header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 50;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 16px 48px;
+  background: rgba(6, 6, 15, 0.8);
+  backdrop-filter: blur(20px);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+.logo {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  cursor: pointer;
+}
+
+.logoIcon {
+  width: 32px;
+  height: 32px;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 14px;
+  font-weight: 900;
+  color: white;
+  background: linear-gradient(135deg, #6366f1, #a855f7);
+}
+
+.logo span:last-child {
+  font-size: 18px;
+  font-weight: 800;
+}
+
+.homeBtn {
+  padding: 9px 22px;
+  border-radius: 999px;
+  border: none;
+  color: white;
+  font-weight: 700;
+  cursor: pointer;
+  background: linear-gradient(135deg, #6366f1, #a855f7);
+}
+
+.container {
+  width: min(1180px, calc(100% - 64px));
+  margin: 0 auto;
+  padding: 70px 0;
+}
+
+.titleBox {
+  margin-bottom: 32px;
+}
+
+.titleBox span {
+  color: #a78bfa;
+  font-weight: 900;
+  letter-spacing: 3px;
+}
+
+.titleBox h1 {
+  font-size: 52px;
+  margin: 12px 0;
+}
+
+.titleBox p {
+  color: rgba(255, 255, 255, 0.65);
+  font-size: 18px;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 24px;
+}
+
+.card,
+.subscription {
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 28px;
+  padding: 32px;
+  backdrop-filter: blur(20px);
+}
+
+.card h2,
+.subscription h2 {
+  font-size: 28px;
+  margin-bottom: 24px;
+}
+
+.infoList {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.infoList div,
+.subscriptionGrid div {
+  display: flex;
+  justify-content: space-between;
+  gap: 20px;
+  padding: 18px 20px;
+  border-radius: 18px;
+  background: rgba(255, 255, 255, 0.06);
+}
+
+.infoList span,
+.subscriptionGrid span {
+  color: rgba(255, 255, 255, 0.55);
+  font-weight: 700;
+}
+
+.infoList strong,
+.subscriptionGrid strong {
+  color: white;
+  text-align: right;
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.form input {
+  height: 52px;
+  border-radius: 16px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  padding: 0 18px;
+  background: rgba(255, 255, 255, 0.08);
+  color: white;
+  outline: none;
+}
+
+.form input::placeholder {
+  color: rgba(255, 255, 255, 0.4);
+}
+
+.form button,
+.paymentBox button {
+  height: 52px;
+  border-radius: 16px;
+  border: none;
+  color: white;
+  font-weight: 800;
+  cursor: pointer;
+  background: linear-gradient(135deg, #6366f1, #a855f7);
+}
+
+.message {
+  color: #c4b5fd;
+  font-weight: 700;
+}
+
+.subscription {
+  margin-top: 24px;
+}
+
+.subscriptionTop {
+  display: flex;
+  justify-content: space-between;
+  gap: 30px;
+  margin-bottom: 28px;
+}
+
+.subscriptionTop span {
+  color: #a78bfa;
+  font-weight: 900;
+  letter-spacing: 2px;
+}
+
+.subscriptionTop p {
+  color: rgba(255, 255, 255, 0.65);
+  line-height: 1.6;
+}
+
+.planBadge {
+  align-self: flex-start;
+  padding: 12px 20px;
+  border-radius: 999px;
+  color: white;
+  font-weight: 900;
+  background: linear-gradient(135deg, #6366f1, #a855f7);
+}
+
+.subscriptionGrid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 16px;
+}
+
+.subscriptionGrid div {
+  flex-direction: column;
+}
+
+.subscriptionGrid strong {
+  text-align: left;
+}
+
+.paymentBox {
+  margin-top: 24px;
+  padding: 24px;
+  border-radius: 22px;
+  background: rgba(255, 255, 255, 0.06);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+}
+
+.paymentBox h3 {
+  font-size: 24px;
+  margin-bottom: 8px;
+}
+
+.paymentBox p {
+  color: rgba(255, 255, 255, 0.6);
+}
+
+.paymentBox button {
+  padding: 0 28px;
+}

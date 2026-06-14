@@ -19,6 +19,7 @@
   align-items: center;
   gap: 10px;
   text-decoration: none;
+  cursor: pointer;
 }
 
 .logoIcon {
@@ -83,5 +84,56 @@
 
 .ctaBtn:hover {
   box-shadow: 0 0 30px rgba(99, 102, 241, 0.5);
+  transform: translateY(-2px);
+}
+
+.userBtns {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.dashboardBtn,
+.myPageBtn,
+.logoutBtn {
+  padding: 8px 18px;
+  border-radius: 999px;
+  font-size: 13px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.dashboardBtn {
+  color: white;
+  border: none;
+  background: linear-gradient(135deg, #6366f1, #a855f7);
+}
+
+.myPageBtn {
+  color: #ddd6fe;
+  border: 1px solid rgba(167, 139, 250, 0.45);
+  background: rgba(124, 58, 237, 0.16);
+}
+
+.logoutBtn {
+  color: rgba(255, 255, 255, 0.75);
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  background: rgba(255, 255, 255, 0.06);
+}
+
+.dashboardBtn:hover {
+  box-shadow: 0 0 30px rgba(99, 102, 241, 0.5);
+  transform: translateY(-2px);
+}
+
+.myPageBtn:hover {
+  background: rgba(124, 58, 237, 0.28);
+  transform: translateY(-2px);
+}
+
+.logoutBtn:hover {
+  color: white;
+  background: rgba(255, 255, 255, 0.12);
   transform: translateY(-2px);
 }

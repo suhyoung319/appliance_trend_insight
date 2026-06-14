@@ -1,0 +1,294 @@
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+  margin-bottom: 26px;
+}
+
+.eyebrow {
+  font-size: 12px;
+  font-weight: 900;
+  letter-spacing: 2px;
+  color: #6366f1;
+  margin-bottom: 8px;
+}
+
+.header h1 {
+  font-size: 32px;
+  margin: 0 0 8px;
+  letter-spacing: -1px;
+}
+
+.header p {
+  margin: 0;
+  color: #6b7280;
+  font-weight: 600;
+}
+
+.searchBox {
+  display: flex;
+  gap: 10px;
+  padding: 8px;
+  border-radius: 999px;
+  background: white;
+  box-shadow: 0 12px 30px rgba(15, 23, 42, 0.08);
+}
+
+.searchBox input {
+  width: 280px;
+  border: none;
+  outline: none;
+  padding: 0 14px;
+  font-weight: 700;
+}
+
+.searchBox button {
+  border: none;
+  border-radius: 999px;
+  padding: 12px 22px;
+  color: white;
+  font-weight: 900;
+  background: linear-gradient(135deg, #6366f1, #a855f7);
+  cursor: pointer;
+}
+
+.statsGrid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 18px;
+  margin-bottom: 22px;
+}
+
+.statCard,
+.panel,
+.panelLarge,
+.tablePanel {
+  background: white;
+  border-radius: 22px;
+  box-shadow: 0 14px 36px rgba(15, 23, 42, 0.08);
+}
+
+.statCard {
+  padding: 22px;
+}
+
+.statCard p {
+  margin: 0 0 12px;
+  color: #6b7280;
+  font-weight: 800;
+  font-size: 13px;
+}
+
+.statCard h2 {
+  margin: 0 0 8px;
+  font-size: 30px;
+}
+
+.statCard span {
+  color: #6366f1;
+  font-weight: 900;
+  font-size: 13px;
+}
+
+.contentGrid {
+  display: grid;
+  grid-template-columns: 1.45fr 1fr;
+  gap: 22px;
+  margin-bottom: 22px;
+}
+
+.bottomGrid {
+  display: grid;
+  grid-template-columns: 1.45fr 1fr;
+  gap: 22px;
+}
+
+.panel,
+.panelLarge,
+.tablePanel {
+  padding: 24px;
+}
+
+.panelHeader {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  margin-bottom: 22px;
+}
+
+.panelHeader h3 {
+  margin: 0 0 6px;
+  font-size: 18px;
+}
+
+.panelHeader p {
+  margin: 0;
+  color: #9ca3af;
+  font-size: 12px;
+  font-weight: 800;
+}
+
+.panelHeader span {
+  color: #9ca3af;
+  font-size: 12px;
+  font-weight: 900;
+}
+
+.chartBox {
+  height: 300px;
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 18px;
+  padding: 30px 10px 8px;
+}
+
+.barItem {
+  flex: 1;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.barValue {
+  font-size: 12px;
+  font-weight: 900;
+  color: #6366f1;
+  margin-bottom: 8px;
+}
+
+.barWrap {
+  width: 100%;
+  height: 210px;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+}
+
+.bar {
+  width: 100%;
+  max-width: 96px;
+  border-radius: 18px 18px 8px 8px;
+  background: linear-gradient(180deg, #6366f1, #a855f7);
+}
+
+.barItem strong {
+  margin-top: 12px;
+  font-size: 12px;
+  color: #4b5563;
+  white-space: nowrap;
+}
+
+.aiBox {
+  padding: 22px;
+  border-radius: 18px;
+  background: linear-gradient(135deg, rgba(99, 102, 241, 0.08), rgba(168, 85, 247, 0.08));
+  border: 1px solid rgba(99, 102, 241, 0.16);
+}
+
+.aiBox b {
+  display: block;
+  font-size: 19px;
+  line-height: 1.5;
+  margin-bottom: 14px;
+}
+
+.aiBox p {
+  margin: 0 0 16px;
+  color: #6b7280;
+  font-size: 14px;
+  line-height: 1.7;
+  font-weight: 600;
+}
+
+.aiBox span {
+  display: block;
+  padding: 14px;
+  border-radius: 14px;
+  color: #4f46e5;
+  background: white;
+  font-size: 13px;
+  font-weight: 900;
+  line-height: 1.6;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+th {
+  text-align: left;
+  padding: 12px;
+  color: #6b7280;
+  font-size: 12px;
+  background: #f8fafc;
+}
+
+td {
+  padding: 15px 12px;
+  border-bottom: 1px solid #eef2f7;
+  font-size: 13px;
+  font-weight: 800;
+}
+
+.keywordBox {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-bottom: 22px;
+}
+
+.keywordBox span {
+  padding: 9px 13px;
+  border-radius: 999px;
+  color: #4f46e5;
+  background: rgba(99, 102, 241, 0.08);
+  border: 1px solid rgba(99, 102, 241, 0.15);
+  font-size: 13px;
+  font-weight: 900;
+}
+
+.riskBox {
+  padding: 18px;
+  border-radius: 16px;
+  background: #fff7ed;
+  border: 1px solid #fed7aa;
+}
+
+.riskBox strong {
+  display: block;
+  color: #ea580c;
+  margin-bottom: 8px;
+}
+
+.riskBox p {
+  margin: 0;
+  color: #9a3412;
+  font-size: 13px;
+  line-height: 1.6;
+  font-weight: 700;
+}
+
+@media (max-width: 1100px) {
+  .statsGrid,
+  .contentGrid,
+  .bottomGrid {
+    grid-template-columns: 1fr;
+  }
+
+  .header {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .searchBox {
+    width: 100%;
+  }
+
+  .searchBox input {
+    width: 100%;
+  }
+}
