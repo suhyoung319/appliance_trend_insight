@@ -49,7 +49,11 @@
   cursor: pointer;
 }
 
-.menu button:hover,
+.menu button:hover {
+  color: white;
+  background: rgba(139, 92, 246, 0.22);
+}
+
 .menu .active {
   color: white;
   background: linear-gradient(135deg, #6366f1, #a855f7);
