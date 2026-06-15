@@ -140,6 +140,7 @@
 }
 
 .form input {
+  width: 100%;
   height: 52px;
   border-radius: 16px;
   border: 1px solid rgba(255, 255, 255, 0.1);
@@ -147,6 +148,7 @@
   background: rgba(255, 255, 255, 0.08);
   color: white;
   outline: none;
+  box-sizing: border-box;
 }
 
 .form input::placeholder {
@@ -162,6 +164,37 @@
   font-weight: 800;
   cursor: pointer;
   background: linear-gradient(135deg, #6366f1, #a855f7);
+}
+
+.passwordBox {
+  position: relative;
+  width: 100%;
+}
+
+.passwordBox input {
+  padding-right: 56px;
+}
+
+.eyeBtn {
+  position: absolute;
+  top: 50%;
+  right: 18px;
+  transform: translateY(-50%);
+  width: 26px;
+  height: 26px;
+  padding: 0;
+  border: none;
+  background: transparent !important;
+  color: rgba(255, 255, 255, 0.55);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.eyeBtn:hover {
+  color: white;
+  background: transparent !important;
 }
 
 .message {

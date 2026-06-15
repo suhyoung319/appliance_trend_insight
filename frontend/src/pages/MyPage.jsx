@@ -12,7 +12,28 @@ export default function MyPage() {
   const [confirmPassword, setConfirmPassword] = useState('')
   const [message, setMessage] = useState('')
 
+  const [showCurrentPassword, setShowCurrentPassword] = useState(false)
+  const [showNewPassword, setShowNewPassword] = useState(false)
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false)
+
   const isBusiness = userType === 'b2b'
+
+  const EyeIcon = ({ hidden }) => (
+    <svg
+      width="22"
+      height="22"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    >
+      <path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12z" />
+      <circle cx="12" cy="12" r="3" />
+      {hidden && <path d="M4 4l16 16" />}
+    </svg>
+  )
 
   const handlePasswordChange = (e) => {
     e.preventDefault()
@@ -79,26 +100,53 @@ export default function MyPage() {
             <h2>비밀번호 변경</h2>
 
             <form className={styles.form} onSubmit={handlePasswordChange}>
-              <input
-                type="password"
-                placeholder="현재 비밀번호"
-                value={currentPassword}
-                onChange={(e) => setCurrentPassword(e.target.value)}
-              />
+              <div className={styles.passwordBox}>
+                <input
+                  type={showCurrentPassword ? 'text' : 'password'}
+                  placeholder="현재 비밀번호"
+                  value={currentPassword}
+                  onChange={(e) => setCurrentPassword(e.target.value)}
+                />
+                <button
+                  type="button"
+                  className={styles.eyeBtn}
+                  onClick={() => setShowCurrentPassword(!showCurrentPassword)}
+                >
+                  <EyeIcon hidden={!showCurrentPassword} />
+                </button>
+              </div>
 
-              <input
-                type="password"
-                placeholder="새 비밀번호"
-                value={newPassword}
-                onChange={(e) => setNewPassword(e.target.value)}
-              />
+              <div className={styles.passwordBox}>
+                <input
+                  type={showNewPassword ? 'text' : 'password'}
+                  placeholder="새 비밀번호"
+                  value={newPassword}
+                  onChange={(e) => setNewPassword(e.target.value)}
+                />
+                <button
+                  type="button"
+                  className={styles.eyeBtn}
+                  onClick={() => setShowNewPassword(!showNewPassword)}
+                >
+                  <EyeIcon hidden={!showNewPassword} />
+                </button>
+              </div>
 
-              <input
-                type="password"
-                placeholder="새 비밀번호 확인"
-                value={confirmPassword}
-                onChange={(e) => setConfirmPassword(e.target.value)}
-              />
+              <div className={styles.passwordBox}>
+                <input
+                  type={showConfirmPassword ? 'text' : 'password'}
+                  placeholder="새 비밀번호 확인"
+                  value={confirmPassword}
+                  onChange={(e) => setConfirmPassword(e.target.value)}
+                />
+                <button
+                  type="button"
+                  className={styles.eyeBtn}
+                  onClick={() => setShowConfirmPassword(!showConfirmPassword)}
+                >
+                  <EyeIcon hidden={!showConfirmPassword} />
+                </button>
+              </div>
 
               {message && <p className={styles.message}>{message}</p>}
 
