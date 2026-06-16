@@ -117,55 +117,14 @@ export default function B2BAIStrategyReport() {
         </div>
       </section>
 
-      <section className={styles.reportBox}>
-        <div className={styles.sectionHeader}>
-          <h3>AI 추천 실행 전략</h3>
-          <span>Action Plan</span>
-        </div>
-
-        <div className={styles.actionGrid}>
-          <div>
-            <h4>제품 전략</h4>
-            <p>
-              AI 경로 설정, 자동 먼지 비움, 저소음 운전 등 사용자의 개입을 줄이는
-              자동화 기능을 핵심 차별화 포인트로 설정합니다.
-            </p>
-          </div>
-
-          <div>
-            <h4>마케팅 전략</h4>
-            <p>
-              “퇴근 후 청소 부담 감소”, “맞벌이 가구를 위한 자동 관리”처럼
-              생활 편의성을 강조한 메시지를 중심으로 캠페인을 구성합니다.
-            </p>
-          </div>
-
-          <div>
-            <h4>가격 전략</h4>
-            <p>
-              프리미엄 가격 부담을 낮추기 위해 렌탈, 카드 제휴, 시즌 프로모션을
-              함께 제안하는 구매 전환 전략이 필요합니다.
-            </p>
-          </div>
-
-          <div>
-            <h4>경쟁 대응</h4>
-            <p>
-              중국 브랜드와 단순 가격으로 경쟁하기보다 A/S, 브랜드 신뢰도,
-              스마트홈 연동성을 강조해 차별화해야 합니다.
-            </p>
-          </div>
-        </div>
-
-        <div className={styles.finalInsight}>
-          <h3>최종 인사이트</h3>
-          <p>
-            현재 시장에서는 단순 성능 경쟁보다 <b>AI 기반 편의성</b>과
-            <b> 프리미엄 사용 경험</b>이 구매 결정에 더 큰 영향을 미칩니다.
-            기업은 제품 기능보다 “생활이 얼마나 편해지는가”를 중심으로
-            전략 메시지를 설계하는 것이 효과적입니다.
-          </p>
-        </div>
+      <section className={styles.finalInsight}>
+        <h3>최종 인사이트</h3>
+        <p>
+          현재 시장에서는 단순 성능 경쟁보다 <b>AI 기반 편의성</b>과
+          <b> 프리미엄 사용 경험</b>이 구매 결정에 더 큰 영향을 미칩니다.
+          기업은 제품 기능보다 “생활이 얼마나 편해지는가”를 중심으로
+          전략 메시지를 설계하는 것이 효과적입니다.
+        </p>
       </section>
     </div>
   )

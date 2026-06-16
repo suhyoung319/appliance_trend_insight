@@ -110,7 +110,7 @@
 
 .swotBox,
 .priorityBox,
-.reportBox{
+.finalInsight{
   background:#fff;
   border-radius:32px;
   padding:35px;
@@ -200,34 +200,7 @@
   text-align:right;
 }
 
-.actionGrid{
-  display:grid;
-  grid-template-columns:repeat(4,1fr);
-  gap:20px;
-}
-
-.actionGrid div{
-  background:#f8f7ff;
-  border-radius:22px;
-  padding:26px;
-}
-
-.actionGrid h4{
-  font-size:22px;
-  margin-bottom:14px;
-  color:#4f46e5;
-}
-
-.actionGrid p{
-  color:#4b5563;
-  line-height:1.7;
-  font-weight:600;
-}
-
 .finalInsight{
-  margin-top:28px;
-  padding:30px;
-  border-radius:24px;
   background:#f5f3ff;
   border:1px solid #ddd6fe;
 }
@@ -246,4 +219,35 @@
 
 .finalInsight b{
   color:#4f46e5;
+}
+
+@media (max-width:1200px){
+  .cardGrid,
+  .strategyGrid{
+    grid-template-columns:1fr 1fr;
+  }
+
+  .summaryBox{
+    grid-template-columns:1fr;
+  }
+
+  .scoreBox{
+    padding:30px;
+  }
+}
+
+@media (max-width:768px){
+  .header h1{
+    font-size:36px;
+  }
+
+  .header p{
+    font-size:16px;
+  }
+
+  .cardGrid,
+  .strategyGrid,
+  .swotGrid{
+    grid-template-columns:1fr;
+  }
 }
