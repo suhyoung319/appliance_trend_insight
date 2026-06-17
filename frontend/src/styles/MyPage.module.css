@@ -1,272 +1,331 @@
 .page {
   min-height: 100vh;
-  background:
-    radial-gradient(circle at top left, rgba(99, 102, 241, 0.35), transparent 34%),
-    radial-gradient(circle at bottom right, rgba(168, 85, 247, 0.25), transparent 34%),
-    #070712;
-  color: white;
-  padding-top: 88px;
+  background: var(--bg);
+  padding: 40px 24px 80px;
+}
+
+.inner {
+  max-width: 600px;
+  margin: 0 auto;
 }
 
 .header {
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  z-index: 50;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 16px 48px;
-  background: rgba(6, 6, 15, 0.8);
-  backdrop-filter: blur(20px);
-  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
-}
-
-.logo {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  cursor: pointer;
-}
-
-.logoIcon {
-  width: 32px;
-  height: 32px;
-  border-radius: 8px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 14px;
-  font-weight: 900;
-  color: white;
-  background: linear-gradient(135deg, #6366f1, #a855f7);
-}
-
-.logo span:last-child {
-  font-size: 18px;
-  font-weight: 800;
-}
-
-.homeBtn {
-  padding: 9px 22px;
-  border-radius: 999px;
-  border: none;
-  color: white;
-  font-weight: 700;
-  cursor: pointer;
-  background: linear-gradient(135deg, #6366f1, #a855f7);
-}
-
-.container {
-  width: min(1180px, calc(100% - 64px));
-  margin: 0 auto;
-  padding: 70px 0;
-}
-
-.titleBox {
   margin-bottom: 32px;
 }
 
-.titleBox span {
-  color: #a78bfa;
-  font-weight: 900;
-  letter-spacing: 3px;
+.title {
+  font-size: 26px;
+  font-weight: 800;
+  color: var(--text);
+  margin: 0 0 4px;
 }
 
-.titleBox h1 {
-  font-size: 52px;
-  margin: 12px 0;
+.sub {
+  font-size: 13px;
+  color: var(--text-muted);
+  margin: 0;
 }
-
-.titleBox p {
-  color: rgba(255, 255, 255, 0.65);
-  font-size: 18px;
-}
-
-.grid {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 24px;
-}
-
-.card,
-.subscription {
-  background: rgba(255, 255, 255, 0.08);
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  border-radius: 28px;
-  padding: 32px;
-  backdrop-filter: blur(20px);
-}
-
-.card h2,
-.subscription h2 {
-  font-size: 28px;
-  margin-bottom: 24px;
-}
-
-.infoList {
+.profileCard {
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 20px;
+  padding: 28px 28px 24px;
+  margin-bottom: 20px;
   display: flex;
-  flex-direction: column;
-  gap: 16px;
+  align-items: center;
+  gap: 22px;
 }
 
-.infoList div,
-.subscriptionGrid div {
+[data-theme='light'] .profileCard {
+  background: rgba(0, 0, 0, 0.02);
+  border-color: rgba(0, 0, 0, 0.08);
+}
+
+.avatar {
+  width: 64px;
+  height: 64px;
+  border-radius: 18px;
+  background: linear-gradient(135deg, rgba(99, 102, 241, 0.25), rgba(168, 85, 247, 0.25));
+  border: 1.5px solid rgba(99, 102, 241, 0.3);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 28px;
+  flex-shrink: 0;
+}
+
+.profileInfo {
+  flex: 1;
+  min-width: 0;
+}
+
+.profileName {
+  font-size: 18px;
+  font-weight: 800;
+  color: var(--text);
+  margin: 0 0 4px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.adminBadge {
+  font-size: 10px;
+  font-weight: 700;
+  color: #a78bfa;
+  background: rgba(99, 102, 241, 0.15);
+  border: 1px solid rgba(99, 102, 241, 0.3);
+  border-radius: 999px;
+  padding: 2px 8px;
+  letter-spacing: 0.05em;
+}
+
+.profileEmail {
+  font-size: 13px;
+  color: var(--text-muted);
+  margin: 0 0 8px;
+}
+
+.typeBadge {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 11px;
+  font-weight: 700;
+  border-radius: 999px;
+  padding: 3px 10px;
+}
+
+.typeBadgeB2C {
+  color: #34d399;
+  background: rgba(52, 211, 153, 0.12);
+  border: 1px solid rgba(52, 211, 153, 0.25);
+}
+
+.typeBadgeB2B {
+  color: #818cf8;
+  background: rgba(99, 102, 241, 0.12);
+  border: 1px solid rgba(99, 102, 241, 0.25);
+}
+.section {
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 20px;
+  padding: 24px 28px;
+  margin-bottom: 16px;
+}
+
+[data-theme='light'] .section {
+  background: rgba(0, 0, 0, 0.02);
+  border-color: rgba(0, 0, 0, 0.08);
+}
+
+.sectionTitle {
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  margin: 0 0 16px;
+}
+.infoRow {
   display: flex;
   justify-content: space-between;
-  gap: 20px;
-  padding: 18px 20px;
-  border-radius: 18px;
-  background: rgba(255, 255, 255, 0.06);
+  align-items: center;
+  padding: 10px 0;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+  font-size: 13.5px;
 }
 
-.infoList span,
-.subscriptionGrid span {
-  color: rgba(255, 255, 255, 0.55);
+[data-theme='light'] .infoRow {
+  border-bottom-color: rgba(0, 0, 0, 0.06);
+}
+
+.infoRow:last-child {
+  border-bottom: none;
+  padding-bottom: 0;
+}
+
+.infoRow:first-of-type {
+  padding-top: 0;
+}
+
+.infoKey {
+  color: var(--text-muted);
+  font-weight: 500;
+}
+
+.infoVal {
+  color: var(--text);
+  font-weight: 600;
+  text-align: right;
+}
+.loading {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 14px;
+  padding: 60px 0;
+  color: var(--text-muted);
+  font-size: 13px;
+}
+
+.spinner {
+  width: 28px;
+  height: 28px;
+  border: 3px solid rgba(99, 102, 241, 0.2);
+  border-top-color: #6366f1;
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+}
+
+@keyframes spin { to { transform: rotate(360deg); } }
+.btnRow {
+  display: flex;
+  gap: 10px;
+  margin-top: 8px;
+}
+
+.homeBtn {
+  flex: 1;
+  padding: 13px;
+  border-radius: 12px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  background: transparent;
+  color: var(--text-muted);
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+[data-theme='light'] .homeBtn {
+  border-color: rgba(0, 0, 0, 0.1);
+}
+
+.homeBtn:hover {
+  border-color: rgba(99, 102, 241, 0.4);
+  color: #818cf8;
+}
+
+.logoutBtn {
+  flex: 1;
+  padding: 13px;
+  border-radius: 12px;
+  border: 1px solid rgba(239, 68, 68, 0.3);
+  background: rgba(239, 68, 68, 0.07);
+  color: #f87171;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.logoutBtn:hover {
+  background: rgba(239, 68, 68, 0.14);
+  border-color: rgba(239, 68, 68, 0.5);
+}
+.alertList {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.alertRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 12px 14px;
+  border-radius: 12px;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.07);
+}
+
+[data-theme='light'] .alertRow {
+  background: rgba(0, 0, 0, 0.03);
+  border-color: rgba(0, 0, 0, 0.07);
+}
+
+.alertInfo { flex: 1; min-width: 0; }
+
+.alertName {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text);
+  margin: 0 0 3px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.alertMeta {
+  font-size: 12px;
+  color: var(--text-muted);
+  margin: 0;
+}
+
+.alertMeta strong {
+  color: #818cf8;
   font-weight: 700;
 }
 
-.infoList strong,
-.subscriptionGrid strong {
-  color: white;
-  text-align: right;
-}
-
-.form {
-  display: flex;
-  flex-direction: column;
-  gap: 14px;
-}
-
-.form input {
-  width: 100%;
-  height: 52px;
-  border-radius: 16px;
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  padding: 0 18px;
-  background: rgba(255, 255, 255, 0.08);
-  color: white;
-  outline: none;
-  box-sizing: border-box;
-}
-
-.form input::placeholder {
-  color: rgba(255, 255, 255, 0.4);
-}
-
-.form button,
-.paymentBox button {
-  height: 52px;
-  border-radius: 16px;
-  border: none;
-  color: white;
-  font-weight: 800;
+.alertDeleteBtn {
+  width: 28px;
+  height: 28px;
+  border-radius: 8px;
+  border: 1px solid rgba(239, 68, 68, 0.3);
+  background: rgba(239, 68, 68, 0.07);
+  color: #f87171;
+  font-size: 12px;
   cursor: pointer;
-  background: linear-gradient(135deg, #6366f1, #a855f7);
-}
-
-.passwordBox {
-  position: relative;
-  width: 100%;
-}
-
-.passwordBox input {
-  padding-right: 56px;
-}
-
-.eyeBtn {
-  position: absolute;
-  top: 50%;
-  right: 18px;
-  transform: translateY(-50%);
-  width: 26px;
-  height: 26px;
-  padding: 0;
-  border: none;
-  background: transparent !important;
-  color: rgba(255, 255, 255, 0.55);
-  cursor: pointer;
+  flex-shrink: 0;
+  transition: all 0.2s;
   display: flex;
   align-items: center;
   justify-content: center;
 }
 
-.eyeBtn:hover {
-  color: white;
-  background: transparent !important;
+.alertDeleteBtn:hover:not(:disabled) {
+  background: rgba(239, 68, 68, 0.15);
 }
 
-.message {
-  color: #c4b5fd;
-  font-weight: 700;
-}
-
-.subscription {
-  margin-top: 24px;
-}
-
-.subscriptionTop {
+.alertDeleteBtn:disabled { opacity: 0.4; cursor: not-allowed; }
+.denied {
+  min-height: 100vh;
+  background: var(--bg);
   display: flex;
-  justify-content: space-between;
-  gap: 30px;
-  margin-bottom: 28px;
-}
-
-.subscriptionTop span {
-  color: #a78bfa;
-  font-weight: 900;
-  letter-spacing: 2px;
-}
-
-.subscriptionTop p {
-  color: rgba(255, 255, 255, 0.65);
-  line-height: 1.6;
-}
-
-.planBadge {
-  align-self: flex-start;
-  padding: 12px 20px;
-  border-radius: 999px;
-  color: white;
-  font-weight: 900;
-  background: linear-gradient(135deg, #6366f1, #a855f7);
-}
-
-.subscriptionGrid {
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 16px;
-}
-
-.subscriptionGrid div {
   flex-direction: column;
-}
-
-.subscriptionGrid strong {
-  text-align: left;
-}
-
-.paymentBox {
-  margin-top: 24px;
-  padding: 24px;
-  border-radius: 22px;
-  background: rgba(255, 255, 255, 0.06);
-  display: flex;
   align-items: center;
-  justify-content: space-between;
-  gap: 24px;
+  justify-content: center;
+  gap: 10px;
+  text-align: center;
+  padding: 24px;
 }
 
-.paymentBox h3 {
-  font-size: 24px;
-  margin-bottom: 8px;
+.deniedIcon { font-size: 40px; }
+
+.deniedTitle {
+  font-size: 18px;
+  font-weight: 800;
+  color: var(--text);
+  margin: 0;
 }
 
-.paymentBox p {
-  color: rgba(255, 255, 255, 0.6);
+.deniedSub {
+  font-size: 13px;
+  color: var(--text-muted);
+  margin: 0;
 }
 
-.paymentBox button {
-  padding: 0 28px;
+.deniedBtn {
+  margin-top: 8px;
+  padding: 11px 24px;
+  border-radius: 10px;
+  border: none;
+  background: linear-gradient(135deg, #6366f1, #a855f7);
+  color: #fff;
+  font-size: 13px;
+  font-weight: 700;
+  cursor: pointer;
 }

@@ -1,10 +1,12 @@
 .section {
-  padding: 100px 48px;
+  padding: 72px 48px 48px;
   max-width: 1200px;
   margin: 0 auto;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
 }
-
-/* ── 섹션 헤더 ── */
 .header {
   text-align: center;
   margin-bottom: 64px;
@@ -22,32 +24,28 @@
 .title {
   font-size: clamp(28px, 3.5vw, 42px);
   font-weight: 800;
-  color: white;
+  color: var(--text);
   letter-spacing: -1px;
   margin-bottom: 14px;
 }
 
 .desc {
   font-size: 15px;
-  color: rgba(255, 255, 255, 0.4);
+  color: var(--text-muted);
   max-width: 480px;
   margin: 0 auto;
   line-height: 1.7;
 }
-
-/* ── 카드 그리드 ── */
 .grid {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
   gap: 20px;
 }
-
-/* ── 개별 카드 ── */
 .card {
   padding: 32px;
   border-radius: 20px;
-  background: rgba(255, 255, 255, 0.03);
-  border: 1px solid rgba(255, 255, 255, 0.07);
+  background: var(--surface);
+  border: 1px solid var(--border);
   backdrop-filter: blur(20px);
   -webkit-backdrop-filter: blur(20px);
   transition: transform 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
@@ -58,24 +56,11 @@
   border-color: rgba(129, 140, 248, 0.35);
   box-shadow: 0 24px 60px rgba(99, 102, 241, 0.12);
 }
-
-/* ── 카드 헤더 (아이콘 + 라벨) ── */
 .cardHeader {
   display: flex;
   align-items: center;
   gap: 14px;
   margin-bottom: 20px;
-}
-
-.iconBox {
-  width: 48px;
-  height: 48px;
-  border-radius: 14px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 22px;
-  flex-shrink: 0;
 }
 
 .cardMeta {
@@ -89,16 +74,14 @@
   font-weight: 600;
   letter-spacing: 1px;
   text-transform: uppercase;
-  opacity: 0.5;
+  opacity: 0.7;
 }
 
 .cardTitle {
   font-size: 17px;
   font-weight: 700;
-  color: white;
+  color: var(--text);
 }
-
-/* ── 항목 리스트 ── */
 .itemList {
   display: flex;
   flex-direction: column;
@@ -111,7 +94,7 @@
   align-items: center;
   gap: 10px;
   font-size: 13px;
-  color: rgba(255, 255, 255, 0.55);
+  color: var(--text-dim);
 }
 
 .dot {

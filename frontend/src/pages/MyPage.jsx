@@ -1,207 +1,181 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
-import styles from '../styles/MyPage.module.css'
+import { useAuth } from '../context/AuthContext'
+import Navbar from '../components/common/Navbar'
+import s from '../styles/MyPage.module.css'
+import { API_BASE } from '../config'
+
+const API = API_BASE
+
+function fmtDate(str) {
+  if (!str) return '—'
+  return new Date(str).toLocaleDateString('ko-KR', { year: 'numeric', month: 'long', day: 'numeric' })
+}
 
 export default function MyPage() {
+  const { user, token, isLoggedIn, logout } = useAuth()
   const navigate = useNavigate()
-  const userType = localStorage.getItem('userType')
-  const userId = localStorage.getItem('userId') || 'user123!'
 
-  const [currentPassword, setCurrentPassword] = useState('')
-  const [newPassword, setNewPassword] = useState('')
-  const [confirmPassword, setConfirmPassword] = useState('')
-  const [message, setMessage] = useState('')
+  const [profile, setProfile] = useState(null)
+  const [loading, setLoading] = useState(true)
+  const [alerts, setAlerts] = useState([])
+  const [alertDeleting, setAlertDeleting] = useState({})
 
-  const [showCurrentPassword, setShowCurrentPassword] = useState(false)
-  const [showNewPassword, setShowNewPassword] = useState(false)
-  const [showConfirmPassword, setShowConfirmPassword] = useState(false)
+  useEffect(() => {
+    if (!isLoggedIn) return
+    fetch(`${API}/api/user/me`, { headers: { Authorization: `Bearer ${token}` } })
+      .then(r => r.json())
+      .then(data => { setProfile(data); setLoading(false) })
+      .catch(() => setLoading(false))
 
-  const isBusiness = userType === 'b2b'
+    fetch(`${API}/api/user/alerts`, { headers: { Authorization: `Bearer ${token}` } })
+      .then(r => r.json())
+      .then(data => setAlerts(data.alerts || []))
+      .catch(() => {})
+  }, [isLoggedIn, token])
 
-  const EyeIcon = ({ hidden }) => (
-    <svg
-      width="22"
-      height="22"
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="2"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-    >
-      <path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12z" />
-      <circle cx="12" cy="12" r="3" />
-      {hidden && <path d="M4 4l16 16" />}
-    </svg>
-  )
-
-  const handlePasswordChange = (e) => {
-    e.preventDefault()
-
-    if (!currentPassword || !newPassword || !confirmPassword) {
-      setMessage('비밀번호 정보를 모두 입력해주세요.')
-      return
+  async function deleteAlert(alertId) {
+    setAlertDeleting(prev => ({ ...prev, [alertId]: true }))
+    try {
+      await fetch(`${API}/api/user/alerts/${alertId}`, {
+        method: 'DELETE',
+        headers: { Authorization: `Bearer ${token}` },
+      })
+      setAlerts(prev => prev.filter(a => a.alert_id !== alertId))
+    } finally {
+      setAlertDeleting(prev => ({ ...prev, [alertId]: false }))
     }
-
-    if (newPassword !== confirmPassword) {
-      setMessage('새 비밀번호가 일치하지 않습니다.')
-      return
-    }
-
-    setMessage('비밀번호가 변경되었습니다.')
-    setCurrentPassword('')
-    setNewPassword('')
-    setConfirmPassword('')
   }
 
-  return (
-    <section className={styles.page}>
-      <div className={styles.header}>
-        <div className={styles.logo} onClick={() => navigate('/')}>
-          <span className={styles.logoIcon}>A</span>
-          <span>APPLENS</span>
-        </div>
-
-        <button className={styles.homeBtn} onClick={() => navigate('/')}>
-          홈으로
-        </button>
+  if (!isLoggedIn) {
+    return (
+      <div className={s.denied}>
+        <div className={s.deniedIcon}>🔒</div>
+        <h1 className={s.deniedTitle}>로그인이 필요해요</h1>
+        <p className={s.deniedSub}>마이페이지는 로그인 후 이용할 수 있어요</p>
+        <button className={s.deniedBtn} onClick={() => navigate('/login')}>로그인하기 →</button>
       </div>
+    )
+  }
 
-      <main className={styles.container}>
-        <div className={styles.titleBox}>
-          <span>MY PAGE</span>
-          <h1>마이페이지</h1>
-          <p>회원 정보와 서비스 이용 상태를 확인할 수 있습니다.</p>
+  const displayName = user?.nickname || user?.company_name || user?.email || '—'
+  const isB2B = user?.user_type === 'b2b'
+  const isAdmin = user?.role === 'admin'
+
+  return (
+    <div>
+      <Navbar />
+      <div className={s.page}>
+        <div className={s.inner}>
+
+          <div className={s.header}>
+            <h1 className={s.title}>마이페이지</h1>
+            <p className={s.sub}>계정 정보를 확인하세요</p>
+          </div>
+
+          {/* 프로필 카드 */}
+          <div className={s.profileCard}>
+            <div className={s.avatar}>{isB2B ? '🏢' : '👤'}</div>
+            <div className={s.profileInfo}>
+              <p className={s.profileName}>
+                {displayName}
+                {isAdmin && <span className={s.adminBadge}>관리자</span>}
+              </p>
+              <p className={s.profileEmail}>{user?.email}</p>
+              <span className={isB2B ? `${s.typeBadge} ${s.typeBadgeB2B}` : `${s.typeBadge} ${s.typeBadgeB2C}`}>
+                {isB2B ? '🏢 사업자' : '👤 개인'}
+              </span>
+            </div>
+          </div>
+
+          {/* 계정 정보 */}
+          {loading ? (
+            <div className={s.loading}>
+              <div className={s.spinner} />
+              <span>정보 불러오는 중...</span>
+            </div>
+          ) : (
+            <div className={s.section}>
+              <p className={s.sectionTitle}>계정 정보</p>
+
+              <div className={s.infoRow}>
+                <span className={s.infoKey}>이메일</span>
+                <span className={s.infoVal}>{profile?.email || user?.email}</span>
+              </div>
+
+              <div className={s.infoRow}>
+                <span className={s.infoKey}>계정 유형</span>
+                <span className={s.infoVal}>{isB2B ? '사업자 (B2B)' : '개인 (B2C)'}</span>
+              </div>
+
+              {isB2B ? (
+                <>
+                  <div className={s.infoRow}>
+                    <span className={s.infoKey}>회사명</span>
+                    <span className={s.infoVal}>{profile?.company_name || '—'}</span>
+                  </div>
+                  <div className={s.infoRow}>
+                    <span className={s.infoKey}>업종</span>
+                    <span className={s.infoVal}>{profile?.business_type || '—'}</span>
+                  </div>
+                  <div className={s.infoRow}>
+                    <span className={s.infoKey}>연락처</span>
+                    <span className={s.infoVal}>{profile?.contact_phone || '—'}</span>
+                  </div>
+                </>
+              ) : (
+                <div className={s.infoRow}>
+                  <span className={s.infoKey}>닉네임</span>
+                  <span className={s.infoVal}>{profile?.nickname || '—'}</span>
+                </div>
+              )}
+
+              <div className={s.infoRow}>
+                <span className={s.infoKey}>가입일</span>
+                <span className={s.infoVal}>{fmtDate(profile?.created_at)}</span>
+              </div>
+            </div>
+          )}
+
+          {/* 가격 알림 목록 */}
+          <div className={s.section}>
+            <p className={s.sectionTitle}>가격 알림</p>
+            {alerts.length === 0 ? (
+              <p style={{ fontSize: 13, color: 'var(--text-muted)', margin: 0 }}>
+                등록된 가격 알림이 없어요. 제품 리포트에서 설정할 수 있어요.
+              </p>
+            ) : (
+              <div className={s.alertList}>
+                {alerts.map(a => (
+                  <div key={a.alert_id} className={s.alertRow}>
+                    <div className={s.alertInfo}>
+                      <p className={s.alertName}>{a.product_name}</p>
+                      <p className={s.alertMeta}>
+                        목표 <strong>{Number(a.target_price).toLocaleString()}원</strong>
+                        &nbsp;·&nbsp;현재 {Number(a.current_price).toLocaleString()}원
+                      </p>
+                    </div>
+                    <button
+                      className={s.alertDeleteBtn}
+                      disabled={!!alertDeleting[a.alert_id]}
+                      onClick={() => deleteAlert(a.alert_id)}
+                    >
+                      {alertDeleting[a.alert_id] ? '…' : '✕'}
+                    </button>
+                  </div>
+                ))}
+              </div>
+            )}
+          </div>
+
+          {/* 버튼 */}
+          <div className={s.btnRow}>
+            <button className={s.homeBtn} onClick={() => navigate('/')}>← 홈으로</button>
+            <button className={s.logoutBtn} onClick={() => { logout(); navigate('/') }}>로그아웃</button>
+          </div>
+
         </div>
-
-        <div className={styles.grid}>
-          <section className={styles.card}>
-            <h2>내 정보</h2>
-
-            <div className={styles.infoList}>
-              <div>
-                <span>아이디</span>
-                <strong>{userId}</strong>
-              </div>
-
-              <div>
-                <span>회원 유형</span>
-                <strong>{isBusiness ? '기업 회원' : '일반 회원'}</strong>
-              </div>
-
-              <div>
-                <span>이용 서비스</span>
-                <strong>{isBusiness ? 'B2B 시장 분석 대시보드' : 'B2C 소비자 대시보드'}</strong>
-              </div>
-            </div>
-          </section>
-
-          <section className={styles.card}>
-            <h2>비밀번호 변경</h2>
-
-            <form className={styles.form} onSubmit={handlePasswordChange}>
-              <div className={styles.passwordBox}>
-                <input
-                  type={showCurrentPassword ? 'text' : 'password'}
-                  placeholder="현재 비밀번호"
-                  value={currentPassword}
-                  onChange={(e) => setCurrentPassword(e.target.value)}
-                />
-                <button
-                  type="button"
-                  className={styles.eyeBtn}
-                  onClick={() => setShowCurrentPassword(!showCurrentPassword)}
-                >
-                  <EyeIcon hidden={!showCurrentPassword} />
-                </button>
-              </div>
-
-              <div className={styles.passwordBox}>
-                <input
-                  type={showNewPassword ? 'text' : 'password'}
-                  placeholder="새 비밀번호"
-                  value={newPassword}
-                  onChange={(e) => setNewPassword(e.target.value)}
-                />
-                <button
-                  type="button"
-                  className={styles.eyeBtn}
-                  onClick={() => setShowNewPassword(!showNewPassword)}
-                >
-                  <EyeIcon hidden={!showNewPassword} />
-                </button>
-              </div>
-
-              <div className={styles.passwordBox}>
-                <input
-                  type={showConfirmPassword ? 'text' : 'password'}
-                  placeholder="새 비밀번호 확인"
-                  value={confirmPassword}
-                  onChange={(e) => setConfirmPassword(e.target.value)}
-                />
-                <button
-                  type="button"
-                  className={styles.eyeBtn}
-                  onClick={() => setShowConfirmPassword(!showConfirmPassword)}
-                >
-                  <EyeIcon hidden={!showConfirmPassword} />
-                </button>
-              </div>
-
-              {message && <p className={styles.message}>{message}</p>}
-
-              <button>비밀번호 수정</button>
-            </form>
-          </section>
-        </div>
-
-        {isBusiness && (
-          <section className={styles.subscription}>
-            <div className={styles.subscriptionTop}>
-              <div>
-                <span>SUBSCRIPTION</span>
-                <h2>기업 구독 정보</h2>
-                <p>기업 회원은 월 구독료 결제를 통해 B2B 분석 리포트를 이용할 수 있습니다.</p>
-              </div>
-
-              <div className={styles.planBadge}>
-                Business Plan
-              </div>
-            </div>
-
-            <div className={styles.subscriptionGrid}>
-              <div>
-                <span>현재 플랜</span>
-                <strong>Business Insight Plan</strong>
-              </div>
-
-              <div>
-                <span>월 구독료</span>
-                <strong>49,000원</strong>
-              </div>
-
-              <div>
-                <span>결제 수단</span>
-                <strong>등록된 카드 없음</strong>
-              </div>
-
-              <div>
-                <span>다음 결제일</span>
-                <strong>2026.07.14</strong>
-              </div>
-            </div>
-
-            <div className={styles.paymentBox}>
-              <div>
-                <h3>결제 카드 등록</h3>
-                <p>실제 결제 기능은 추후 PG사 연동 시 연결할 수 있습니다.</p>
-              </div>
-
-              <button>카드 등록/변경</button>
-            </div>
-          </section>
-        )}
-      </main>
-    </section>
+      </div>
+    </div>
   )
 }

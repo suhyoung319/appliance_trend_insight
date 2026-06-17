@@ -1,78 +1,337 @@
-import { useState } from 'react'
-import { useNavigate } from 'react-router-dom'
+import { useState, useRef, useEffect } from 'react'
 import styles from '../../styles/Navbar.module.css'
+import { useTheme } from '../../context/ThemeContext'
+import { useNavigate } from 'react-router-dom'
+import { useAuth } from '../../context/AuthContext'
 
-export default function Navbar({ mode, setMode }) {
+const SERVICE_ITEMS = [
+  {
+    label: '제품 비교',
+    desc: '두 제품을 나란히 비교 분석',
+    path: '/compare',
+    icon: (
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+        <rect x="2" y="3" width="8" height="18" rx="2" />
+        <rect x="14" y="3" width="8" height="18" rx="2" />
+        <line x1="10" y1="8" x2="14" y2="8" />
+        <line x1="10" y1="12" x2="14" y2="12" />
+        <line x1="10" y1="16" x2="14" y2="16" />
+      </svg>
+    ),
+  },
+  {
+    label: '구매 타이밍',
+    desc: '가격 추이로 최적 구매 시점 분석',
+    path: '/timing',
+    icon: (
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+        <polyline points="3 17 7 11 11 14 15 8 21 14" />
+        <line x1="3" y1="21" x2="21" y2="21" />
+        <circle cx="21" cy="7" r="3" />
+      </svg>
+    ),
+  },
+  {
+    label: 'AI 추천',
+    desc: '내 조건에 딱 맞는 제품을 AI 추천',
+    path: '/recommend',
+    icon: (
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+        <path d="M12 2l2.4 7.4H22l-6.2 4.5 2.4 7.4L12 17l-6.2 4.3 2.4-7.4L2 9.4h7.6z" />
+      </svg>
+    ),
+  },
+]
+
+
+const PRODUCT_CATEGORIES = [
+  {
+    name: '생활가전',
+    items: ['냉장고', '세탁기', '건조기', '에어컨', '공기청정기', '로봇청소기', '식기세척기'],
+  },
+  {
+    name: '주방가전',
+    items: ['에어프라이어', '전기밥솥', '전자레인지', '커피머신', '믹서기', '전기포트'],
+  },
+  {
+    name: '영상/음향',
+    items: ['TV', '사운드바', '블루투스 스피커', '프로젝터'],
+  },
+  {
+    name: '계절가전',
+    items: ['가습기', '제습기', '선풍기', '전기히터'],
+  },
+  {
+    name: '개인가전',
+    items: ['헤어드라이어', '헤어스타일러', '전동칫솔', '전기면도기'],
+  },
+]
+
+export default function Navbar() {
   const navigate = useNavigate()
-  const [isLogin, setIsLogin] = useState(localStorage.getItem('isLogin') === 'true')
-  const userType = localStorage.getItem('userType')
+  const [mode, setMode] = useState(() => localStorage.getItem('navMode') ?? 'b2c')
+  const [isSearchOpen, setIsSearchOpen] = useState(false)
+  const [scrollProgress, setScrollProgress] = useState(0)
+  const [isHidden, setIsHidden] = useState(false)
+  const [openDropdown, setOpenDropdown] = useState(null)
+  const lastScrollY = useRef(0)
+  const searchInputRef = useRef(null)
+  const navRef = useRef(null)
+  const { isDark, toggle } = useTheme()
+  const { isLoggedIn, user, logout } = useAuth()
 
-  const handleLogout = () => {
-    localStorage.removeItem('isLogin')
-    localStorage.removeItem('userType')
-    localStorage.removeItem('userId')
-    setIsLogin(false)
-    navigate('/')
+  useEffect(() => {
+    if (!user) {
+      // 로그아웃 시 플래그 초기화
+      sessionStorage.removeItem('navModeSet')
+      return
+    }
+    // 이미 이번 세션에서 자동 감지했으면 재실행 안 함
+    // (B2B 유저가 수동으로 B2C 전환 후 페이지 이동해도 유지됨)
+    if (sessionStorage.getItem('navModeSet')) return
+
+    if (user.user_type === 'b2b') {
+      setMode('b2b')
+      localStorage.setItem('navMode', 'b2b')
+    } else if (user.user_type !== 'b2b' && user.role !== 'admin') {
+      setMode('b2c')
+      localStorage.setItem('navMode', 'b2c')
+    }
+    sessionStorage.setItem('navModeSet', '1')
+  }, [user])
+
+  useEffect(() => {
+    const container = document.querySelector('[data-scroll-container]')
+    if (!container) return
+    const onScroll = () => {
+      const { scrollTop, scrollHeight, clientHeight } = container
+      setScrollProgress(Math.round((scrollTop / (scrollHeight - clientHeight)) * 100))
+      setIsHidden(scrollTop > 0)
+      lastScrollY.current = scrollTop
+    }
+    container.addEventListener('scroll', onScroll)
+    return () => container.removeEventListener('scroll', onScroll)
+  }, [])
+
+  useEffect(() => {
+    function handleClickOutside(e) {
+      if (navRef.current && !navRef.current.contains(e.target)) {
+        setOpenDropdown(null)
+      }
+    }
+    document.addEventListener('mousedown', handleClickOutside)
+    return () => document.removeEventListener('mousedown', handleClickOutside)
+  }, [])
+
+  function openSearch() {
+    setIsSearchOpen(true)
+    setTimeout(() => searchInputRef.current?.focus(), 60)
   }
 
-  const handleMyDashboard = () => {
-    if (userType === 'b2b') {
-      navigate('/b2b')
-    } else {
-      navigate('/b2c')
+  function closeSearch() {
+    setIsSearchOpen(false)
+    if (searchInputRef.current) searchInputRef.current.value = ''
+  }
+
+  function handleNavSearch(e) {
+    if (e.nativeEvent.isComposing) return
+    if (e.key === 'Enter') {
+      const q = searchInputRef.current?.value.trim()
+      if (!q) return
+      setOpenDropdown(null)
+      closeSearch()
+      navigate(`/products/${encodeURIComponent(q)}`)
     }
   }
 
+  function toggleDropdown(key) {
+    setOpenDropdown(prev => (prev === key ? null : key))
+  }
+
   return (
-    <nav className={styles.navbar}>
-      <div className={styles.logo} onClick={() => navigate('/')}>
-        <div className={styles.logoIcon}>A</div>
-        <span className={styles.logoText}>APPLENS</span>
+    <>
+      <div className={styles.progressBar}>
+        <div className={styles.progressFill} style={{ width: `${scrollProgress}%` }} />
       </div>
 
-      <div className={styles.toggle}>
-        {['b2c', 'b2b'].map(m => (
-          <button
-            key={m}
-            onClick={() => setMode(m)}
-            className={`${styles.toggleBtn} ${mode === m ? styles.toggleBtnActive : ''}`}
-          >
-            {m.toUpperCase()}
-          </button>
-        ))}
-      </div>
+      <div
+        ref={navRef}
+        className={`${styles.navOuter} ${isHidden ? styles.navHidden : ''}`}
+      >
+        <nav className={styles.navbar}>
 
-      {isLogin ? (
-        <div className={styles.userBtns}>
-          <button
-            className={styles.dashboardBtn}
-            onClick={handleMyDashboard}
-          >
-            대시보드
-          </button>
+          <div className={styles.logo}
+            onClick={() => navigate(mode === 'b2b' ? '/b2b' : '/')}
+            style={{ cursor: 'pointer' }}>
+            <div className={styles.logoIcon}>A</div>
+            <span className={styles.logoText}>가전무쌍</span>
+            {mode === 'b2b' && <span className={styles.b2bBadge}>B2B</span>}
+          </div>
 
-          <button
-            className={styles.myPageBtn}
-            onClick={() => navigate('/mypage')}
-          >
-            마이페이지
-          </button>
+          <ul className={styles.navItems}>
+            <li
+              className={`${styles.navItem} ${openDropdown === 'product' ? styles.navItemActive : ''}`}
+              onClick={() => toggleDropdown('product')}
+            >
+              제품
+              <span className={`${styles.navCaret} ${openDropdown === 'product' ? styles.navCaretOpen : ''}`}>▾</span>
+            </li>
+            <li
+              className={`${styles.navItem} ${openDropdown === 'service' ? styles.navItemActive : ''}`}
+              onClick={() => toggleDropdown('service')}
+            >
+              서비스
+              <span className={`${styles.navCaret} ${openDropdown === 'service' ? styles.navCaretOpen : ''}`}>▾</span>
+            </li>
+            <li
+              className={styles.navItem}
+              onClick={() => { setOpenDropdown(null); navigate('/trend') }}
+            >
+              트렌드
+            </li>
+            {mode === 'b2b' && (
+              <>
+                <li
+                  className={styles.navItem}
+                  onClick={() => { setOpenDropdown(null); navigate('/b2b/dashboard') }}
+                >
+                  시장 분석
+                </li>
+                <li
+                  className={styles.navItem}
+                  onClick={() => { setOpenDropdown(null); navigate('/b2b/price') }}
+                >
+                  가격 분석
+                </li>
+              </>
+            )}
+          </ul>
 
-          <button
-            className={styles.logoutBtn}
-            onClick={handleLogout}
-          >
-            로그아웃
-          </button>
+          <div className={styles.navRight}>
+            <div className={`${styles.searchToggle} ${isSearchOpen ? styles.searchOpen : ''}`}>
+              <button className={styles.searchIconBtn} onClick={openSearch} aria-label="검색">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none"
+                  stroke="currentColor" strokeWidth="2.5" strokeLinecap="round">
+                  <circle cx="11" cy="11" r="7" />
+                  <line x1="16.5" y1="16.5" x2="22" y2="22" />
+                </svg>
+              </button>
+              <input
+                ref={searchInputRef}
+                className={styles.searchInput}
+                placeholder="제품 검색..."
+                onBlur={closeSearch}
+                onKeyDown={handleNavSearch}
+              />
+              <button
+                className={styles.searchCloseBtn}
+                onMouseDown={e => e.preventDefault()}
+                onClick={closeSearch}
+                aria-label="닫기"
+              >
+                <svg width="11" height="11" viewBox="0 0 24 24" fill="none"
+                  stroke="currentColor" strokeWidth="2.5" strokeLinecap="round">
+                  <line x1="18" y1="6" x2="6" y2="18" />
+                  <line x1="6" y1="6" x2="18" y2="18" />
+                </svg>
+              </button>
+            </div>
+
+            <div className={styles.toggle}>
+              <button
+                onClick={() => {
+                  setMode('b2c')
+                  localStorage.setItem('navMode', 'b2c')
+                  navigate('/')
+                }}
+                className={`${styles.toggleBtn} ${mode === 'b2c' ? styles.toggleBtnActive : ''}`}
+              >
+                B2C
+              </button>
+              <button
+                onClick={() => {
+                  setMode('b2b')
+                  localStorage.setItem('navMode', 'b2b')
+                  navigate('/b2b')
+                }}
+                className={`${styles.toggleBtn} ${mode === 'b2b' ? styles.toggleBtnActive : ''}`}
+              >
+                B2B
+              </button>
+            </div>
+
+            <button
+              className={`${styles.themeToggle} ${isDark ? '' : styles.themeLightMode}`}
+              onClick={toggle}
+              aria-label="테마 전환"
+            >
+              <span className={`${styles.themeThumb} ${isDark ? '' : styles.themeThumbRight}`}>
+                {isDark ? '🌙' : '☀️'}
+              </span>
+            </button>
+
+            {isLoggedIn ? (
+              <div className={styles.userWrap}>
+                {user?.role === 'admin' && (
+                  <button className={styles.adminBtn} onClick={() => navigate('/admin')}>
+                    🛡️ 관리자
+                  </button>
+                )}
+                <span className={styles.userName} onClick={() => navigate('/mypage')} style={{ cursor: 'pointer' }}>
+                  {user?.nickname || user?.company_name || user?.email}
+                </span>
+                <button className={styles.logoutBtn} onClick={logout}>로그아웃</button>
+              </div>
+            ) : (
+              <button className={styles.ctaBtn} onClick={() => navigate('/login')}>
+                시작하기 →
+              </button>
+            )}
+          </div>
+
+        </nav>
+
+        <div className={`${styles.dropdown} ${openDropdown === 'product' ? styles.dropdownOpen : ''}`}>
+          <div className={styles.dropdownGrid}>
+            {PRODUCT_CATEGORIES.map(cat => (
+              <div key={cat.name} className={styles.dropdownCol}>
+                <p className={styles.dropdownCatName}>{cat.name}</p>
+                <ul className={styles.dropdownItems}>
+                  {cat.items.map(item => (
+                    <li
+                      key={item}
+                      className={styles.dropdownItem}
+                      onClick={() => { setOpenDropdown(null); navigate(`/products/${item}`) }}
+                    >
+                      {item}
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            ))}
+          </div>
         </div>
-      ) : (
-        <button
-          className={styles.ctaBtn}
-          onClick={() => navigate('/login')}
-        >
-          로그인
-        </button>
-      )}
-    </nav>
+
+        <div className={`${styles.dropdown} ${openDropdown === 'service' ? styles.dropdownOpen : ''}`}>
+          <div className={styles.dropdownServiceGrid}>
+            {SERVICE_ITEMS.map(item => (
+              <div
+                key={item.path}
+                className={styles.serviceCard}
+                onClick={() => { setOpenDropdown(null); navigate(item.path) }}
+              >
+                <div className={styles.serviceCardIcon}>{item.icon}</div>
+                <div>
+                  <p className={styles.serviceCardLabel}>{item.label}</p>
+                  <p className={styles.serviceCardDesc}>{item.desc}</p>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+
+
+      </div>
+    </>
   )
 }

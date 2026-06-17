@@ -1,6 +1,22 @@
+import { useState, useEffect } from 'react'
 import styles from '../../styles/ReportPreview.module.css'
 import anim from '../../styles/animations.module.css'
 import { useInView } from '../../hooks/useInView'
+
+function useCounter(target, duration = 1800, start = false) {
+  const [count, setCount] = useState(0)
+  useEffect(() => {
+    if (!start) return
+    const startTime = performance.now()
+    const step = (now) => {
+      const t = Math.min((now - startTime) / duration, 1)
+      setCount(Math.round((1 - Math.pow(1 - t, 3)) * target))
+      if (t < 1) requestAnimationFrame(step)
+    }
+    requestAnimationFrame(step)
+  }, [start, target, duration])
+  return count
+}
 
 // AI 구매 리포트 샘플 데이터 (실제 API 연동 전 목업)
 const SAMPLE_REPORT = {
@@ -25,6 +41,9 @@ export default function ReportPreview() {
   const leftCard = useInView({ threshold: 0.1 })
   const rightCard = useInView({ threshold: 0.1 })
 
+  const animatedInterest = useCounter(interest, 1500, leftCard.inView)
+  const animatedScore = useCounter(score, 1800, rightCard.inView)
+
   // 별점 문자열 생성 (ex. 4.6 → "★★★★☆")
   const stars = '★'.repeat(Math.floor(rating)) + (rating % 1 >= 0.5 ? '★' : '☆') + '☆'.repeat(5 - Math.ceil(rating))
 
@@ -36,7 +55,7 @@ export default function ReportPreview() {
         ref={header.ref}
         className={`${styles.header} ${anim.hidden} ${header.inView ? anim.visible : ''}`}
       >
-        <p className={styles.eyebrow}>AI Report Preview</p>
+        <p className={styles.eyebrow}>리포트 미리보기</p>
         <h2 className={styles.title}>이런 리포트를 받아보세요</h2>
       </div>
 
@@ -63,7 +82,7 @@ export default function ReportPreview() {
           <div className={styles.interestBarWrap}>
             <div className={styles.interestBar} />
           </div>
-          <p className={styles.interestValue}>상위 {100 - interest}% · 관심도 {interest}점</p>
+          <p className={styles.interestValue}>상위 {100 - animatedInterest}% · 관심도 {animatedInterest}점</p>
         </div>
 
         {/* 오른쪽 카드: 오른쪽에서 슬라이드 인 (딜레이 150ms로 순서감) */}
@@ -95,15 +114,15 @@ export default function ReportPreview() {
 
           {/* 리콜 여부 */}
           <div className={styles.analysisRow}>
-            <p className={styles.analysisTitle} style={{ color: 'rgba(255,255,255,0.4)' }}>리콜 여부</p>
+            <p className={styles.analysisTitle} style={{ color: 'var(--text-muted)' }}>리콜 여부</p>
             <span className={styles.recallSafe}>✓ 리콜 이력 없음 · 안전</span>
           </div>
 
           {/* 추천도 점수 */}
           <div className={styles.analysisRow}>
-            <p className={styles.analysisTitle} style={{ color: 'rgba(255,255,255,0.4)' }}>AI 추천도</p>
+            <p className={styles.analysisTitle} style={{ color: 'var(--text-muted)' }}>추천도</p>
             <div className={styles.recommendScore}>
-              <span className={styles.scoreBig}>{score}</span>
+              <span className={styles.scoreBig}>{animatedScore}</span>
               <p className={styles.scoreDesc}>
                 {suitableFor}에 적합<br />
                 <span style={{ color: '#f59e0b', fontSize: '11px' }}>⚠ {caution}</span>
@@ -118,7 +137,7 @@ export default function ReportPreview() {
       </div>
 
       <p className={styles.aiNote}>
-        ✦ 이 리포트는 실제 데이터를 기반으로 AI가 자동 생성합니다
+        ✦ 실제 쇼핑 데이터 · 검색 트렌드 · 리뷰를 통합 분석한 결과입니다
       </p>
 
     </section>

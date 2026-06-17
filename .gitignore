@@ -22,3 +22,7 @@ frontend/dist/
 # IDE
 .idea/
 .vscode/
+
+backend/.venv/
+.venv/
+venv/

@@ -9,6 +9,7 @@ const TYPING_PHRASES = [
   '스타일러 소비자 반응 확인 중',
 ]
 
+
 // 검색창 아래 인기 키워드 태그
 const POPULAR_KEYWORDS = ['에어컨 🔥', '냉장고', '로봇청소기', '스타일러', '건조기', '식기세척기']
 
@@ -62,7 +63,7 @@ export default function Hero() {
       <div className={styles.content}>
 
         {/* 상단 뱃지 */}
-        <span className={styles.badge}>✦ AI 기반 실시간 가전 트렌드 분석</span>
+        <span className={styles.badge}>✦ 실시간 가전 트렌드 분석</span>
 
         {/* 메인 헤드라인 - 두 번째 줄에 그라디언트 텍스트 */}
         <h1 className={styles.headline}>
@@ -73,12 +74,7 @@ export default function Hero() {
         {/* 타이핑 효과 서브타이틀 */}
         <p className={styles.subtitle}>
           지금 이 순간,&nbsp;
-          <span
-            className={styles.typingText}
-            style={{ width: `${Math.max(typingText.length, 1)}ch` }}
-          >
-            {typingText}
-          </span>
+          <span className={styles.typingText}>{typingText}</span>
         </p>
 
         {/* 제품 검색창 */}

@@ -1,122 +1,126 @@
 import { useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
+import { useAuth } from '../context/AuthContext'
 import styles from '../styles/Login.module.css'
+import { API_BASE } from '../config'
 
 export default function Login() {
-  const navigate = useNavigate()
-  const [userId, setUserId] = useState('')
+  const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
-  const [userType, setUserType] = useState('b2c')
+  const [showPw, setShowPw] = useState(false)
+  const [loading, setLoading] = useState(false)
   const [error, setError] = useState('')
 
-  const rule = /^(?=.*[A-Za-z])(?=.*\d)(?=.*[!@#$%^&*()_+\-={}[\]|:;"'<>,.?/]).+$/
+  const { login } = useAuth()
+  const navigate = useNavigate()
 
-  const MOCK_USERS = [
-    {
-      id: 'user123!',
-      password: 'user123!',
-      type: 'b2c',
-    },
-    {
-      id: 'biz123!',
-      password: 'biz123!',
-      type: 'b2b',
-    },
-  ]
-
-  const handleLogin = (e) => {
+  async function handleSubmit(e) {
     e.preventDefault()
-
-    if (!userId || !password) {
-      setError('아이디와 비밀번호를 모두 입력해주세요.')
-      return
-    }
-
-    if (!rule.test(userId) || !rule.test(password)) {
-      setError('아이디와 비밀번호는 영문, 숫자, 특수기호를 각각 1개 이상 포함해야 합니다.')
-      return
-    }
-
-    const user = MOCK_USERS.find(
-      u =>
-        u.id === userId &&
-        u.password === password &&
-        u.type === userType
-    )
-
-    if (!user) {
-      setError('아이디, 비밀번호 또는 회원 유형이 일치하지 않습니다.')
-      return
-    }
-
-    localStorage.setItem('isLogin', 'true')
-    localStorage.setItem('userType', user.type)
-    localStorage.setItem('userId', user.id)
-
-    if (user.type === 'b2c') {
-      navigate('/b2c')
-    } else {
-      navigate('/b2b')
+    if (!email || !password) return
+    setLoading(true)
+    setError('')
+    try {
+      const res  = await fetch(`${API_BASE}/api/auth/login`, {
+        method:  'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body:    JSON.stringify({ email, password }),
+      })
+      const data = await res.json()
+      if (!res.ok) {
+        if (data.detail === 'PENDING') {
+          setError('관리자 승인 대기 중입니다. 승인 후 로그인이 가능합니다.')
+        } else {
+          setError(data.detail || '로그인에 실패했습니다')
+        }
+        return
+      }
+      login(data.token, {
+        user_type:    data.user_type,
+        nickname:     data.nickname     || '',
+        company_name: data.company_name || '',
+        email,
+        role:         data.role         || 'user',
+        status:       data.status       || 'active',
+      })
+      navigate(data.role === 'admin' ? '/admin' : '/')
+    } catch {
+      setError('서버에 연결할 수 없습니다')
+    } finally {
+      setLoading(false)
     }
   }
 
   return (
-    <section className={styles.page}>
-      <div className={styles.blobOne} />
-      <div className={styles.blobTwo} />
+    <div className={styles.page}>
+      <div className={styles.blobWrap}>
+        <div className={`${styles.blob} ${styles.blobIndigo}`} />
+        <div className={`${styles.blob} ${styles.blobPurple}`} />
+      </div>
 
       <div className={styles.card}>
-        <Link to="/" className={styles.logo}>
-          <span className={styles.logoIcon}>A</span>
-          <span>APPLENS</span>
-        </Link>
+        <div className={styles.logo}>
+          <div className={styles.logoIcon}>A</div>
+          <span className={styles.logoText}>가전무쌍</span>
+        </div>
 
-        <p className={styles.eyebrow}>Welcome Back</p>
         <h1 className={styles.title}>로그인</h1>
-        <p className={styles.desc}>가전 트렌드 분석 서비스를 시작해보세요.</p>
+        <p className={styles.sub}>가전 트렌드 인사이트를 확인하세요</p>
 
-        <form onSubmit={handleLogin} className={styles.form}>
-          <div className={styles.typeBox}>
+        <form className={styles.form} onSubmit={handleSubmit}>
+          <div className={styles.field}>
+            <input
+              id="email"
+              type="email"
+              className={styles.input}
+              placeholder=" "
+              value={email}
+              onChange={e => { setEmail(e.target.value); setError('') }}
+              disabled={loading}
+            />
+            <label htmlFor="email" className={styles.floatLabel}>이메일</label>
+          </div>
+
+          <div className={styles.field}>
+            <input
+              id="password"
+              type={showPw ? 'text' : 'password'}
+              className={styles.input}
+              placeholder=" "
+              value={password}
+              onChange={e => { setPassword(e.target.value); setError('') }}
+              style={{ paddingRight: '44px' }}
+              disabled={loading}
+            />
+            <label htmlFor="password" className={styles.floatLabel}>비밀번호</label>
             <button
               type="button"
-              className={`${styles.typeBtn} ${userType === 'b2c' ? styles.active : ''}`}
-              onClick={() => setUserType('b2c')}
+              className={styles.eyeBtn}
+              onClick={() => setShowPw(v => !v)}
             >
-              일반 회원
-            </button>
-            <button
-              type="button"
-              className={`${styles.typeBtn} ${userType === 'b2b' ? styles.active : ''}`}
-              onClick={() => setUserType('b2b')}
-            >
-              기업 회원
+              {showPw ? '🙈' : '👁️'}
             </button>
           </div>
 
-          <input
-            className={styles.input}
-            placeholder="아이디"
-            value={userId}
-            onChange={(e) => setUserId(e.target.value)}
-          />
+          {error && <p className={styles.errorMsg}>{error}</p>}
 
-          <input
-            className={styles.input}
-            type="password"
-            placeholder="비밀번호"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-          />
-
-          {error && <p className={styles.error}>{error}</p>}
-
-          <button className={styles.submitBtn}>로그인</button>
+          <button
+            type="submit"
+            className={styles.submitBtn}
+            disabled={loading || !email || !password}
+          >
+            {loading ? <span className={styles.spinner} /> : '로그인'}
+          </button>
         </form>
 
-        <p className={styles.bottomText}>
-          아직 계정이 없나요? <Link to="/signup">회원가입</Link>
+        <p className={styles.signupRow}>
+          계정이 없으신가요?&nbsp;
+          <Link to="/signup" className={styles.signupLink}>회원가입</Link>
         </p>
+
+        <button type="button" className={styles.ctaBtn} onClick={() => navigate('/')}>
+          뒤로가기 →
+        </button>
       </div>
-    </section>
+    </div>
   )
 }

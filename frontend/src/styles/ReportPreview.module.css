@@ -1,7 +1,11 @@
 .section {
-  padding: 100px 48px;
+  padding: 72px 48px 48px;
   max-width: 1200px;
   margin: 0 auto;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
 }
 
 .header {
@@ -21,25 +25,22 @@
 .title {
   font-size: clamp(28px, 3.5vw, 42px);
   font-weight: 800;
-  color: white;
+  color: var(--text);
   letter-spacing: -1px;
 }
-
-/* ── 리포트 카드 레이아웃 ── */
 .reportWrap {
   display: grid;
   grid-template-columns: 1fr 1.4fr;
   gap: 24px;
   align-items: start;
 }
-
-/* ── 왼쪽: 제품 기본 정보 ── */
 .productCard {
   padding: 32px;
   border-radius: 20px;
-  background: rgba(255, 255, 255, 0.03);
-  border: 1px solid rgba(255, 255, 255, 0.07);
+  background: var(--surface);
+  border: 1px solid var(--border);
   backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
 }
 
 .productBadge {
@@ -57,25 +58,23 @@
 .productName {
   font-size: 20px;
   font-weight: 800;
-  color: white;
+  color: var(--text);
   margin-bottom: 4px;
   line-height: 1.3;
 }
 
 .productBrand {
   font-size: 13px;
-  color: rgba(255, 255, 255, 0.35);
+  color: var(--text-muted);
   margin-bottom: 20px;
 }
 
 .productPrice {
   font-size: 26px;
   font-weight: 900;
-  color: white;
+  color: var(--text);
   margin-bottom: 20px;
 }
-
-/* 평점 + 리뷰 수 */
 .ratingRow {
   display: flex;
   align-items: center;
@@ -92,25 +91,23 @@
 .ratingNum {
   font-size: 15px;
   font-weight: 700;
-  color: white;
+  color: var(--text);
 }
 
 .reviewCount {
   font-size: 12px;
-  color: rgba(255, 255, 255, 0.35);
+  color: var(--text-muted);
 }
-
-/* 관심도 바 */
 .interestLabel {
   font-size: 12px;
-  color: rgba(255, 255, 255, 0.4);
+  color: var(--text-muted);
   margin-bottom: 8px;
 }
 
 .interestBarWrap {
   height: 6px;
   border-radius: 999px;
-  background: rgba(255, 255, 255, 0.08);
+  background: var(--border-med);
   overflow: hidden;
   margin-bottom: 4px;
 }
@@ -132,14 +129,13 @@
   color: #818cf8;
   font-weight: 600;
 }
-
-/* ── 오른쪽: AI 분석 내용 ── */
 .analysisCard {
   padding: 32px;
   border-radius: 20px;
-  background: rgba(255, 255, 255, 0.03);
-  border: 1px solid rgba(255, 255, 255, 0.07);
+  background: var(--surface);
+  border: 1px solid var(--border);
   backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
   display: flex;
   flex-direction: column;
   gap: 24px;
@@ -157,8 +153,6 @@
   letter-spacing: 1px;
   text-transform: uppercase;
 }
-
-/* 장점 / 단점 태그 */
 .tagList {
   display: flex;
   flex-wrap: wrap;
@@ -183,8 +177,6 @@
   background: rgba(248, 113, 113, 0.1);
   border: 1px solid rgba(248, 113, 113, 0.2);
 }
-
-/* 리콜 상태 */
 .recallSafe {
   display: inline-flex;
   align-items: center;
@@ -197,8 +189,6 @@
   background: rgba(74, 222, 128, 0.08);
   border: 1px solid rgba(74, 222, 128, 0.2);
 }
-
-/* 추천도 */
 .recommendScore {
   display: flex;
   align-items: center;
@@ -217,11 +207,9 @@
 
 .scoreDesc {
   font-size: 13px;
-  color: rgba(255, 255, 255, 0.4);
+  color: var(--text-muted);
   line-height: 1.6;
 }
-
-/* 구매 버튼 */
 .buyBtn {
   width: 100%;
   padding: 14px;
@@ -239,11 +227,9 @@
   box-shadow: 0 0 30px rgba(99, 102, 241, 0.4);
   transform: translateY(-2px);
 }
-
-/* AI 생성 안내 */
 .aiNote {
   text-align: center;
   margin-top: 32px;
   font-size: 12px;
-  color: rgba(255, 255, 255, 0.2);
+  color: var(--text-muted);
 }

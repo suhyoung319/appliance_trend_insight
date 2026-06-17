@@ -1,6 +1,6 @@
 .hero {
   position: relative;
-  min-height: 100vh;
+  height: 100%;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -19,7 +19,11 @@
   position: absolute;
   border-radius: 50%;
   filter: blur(90px);
-  opacity: 0.45;
+  opacity: 0.35;
+}
+
+[data-theme="light"] .blob {
+  opacity: 0.25;
 }
 
 .blobIndigo {
@@ -97,13 +101,19 @@
   letter-spacing: 0.3px;
 }
 
+[data-theme="light"] .badge {
+  color: #4f46e5;
+  background: rgba(99, 102, 241, 0.08);
+  border-color: rgba(99, 102, 241, 0.25);
+}
+
 /* ── 헤드라인 ── */
 .headline {
   font-size: clamp(36px, 5vw, 60px);
   font-weight: 900;
   line-height: 1.15;
   letter-spacing: -1.5px;
-  color: white;
+  color: var(--text);
 }
 
 .gradientText {
@@ -124,7 +134,7 @@
 /* ── 타이핑 서브타이틀 ── */
 .subtitle {
   font-size: 16px;
-  color: rgba(255, 255, 255, 0.5);
+  color: var(--text-muted);
   display: flex;
   align-items: center;
   gap: 8px;
@@ -132,12 +142,12 @@
 }
 
 .typingText {
-  color: rgba(255, 255, 255, 0.85);
+  color: var(--text-dim);
   font-weight: 500;
   white-space: nowrap;
-  overflow: hidden;
   border-right: 2px solid #818cf8;
   animation: blink 0.7s step-end infinite;
+  display: inline-block;
 }
 
 @keyframes blink {
@@ -153,19 +163,19 @@
   max-width: 560px;
   overflow: hidden;
   border-radius: 999px;
-  background: rgba(255, 255, 255, 0.06);
-  border: 1px solid rgba(255, 255, 255, 0.12);
+  background: var(--surface);
+  border: 1px solid var(--border-med);
   transition: border-color 0.3s, box-shadow 0.3s;
 }
 
 .searchWrap:focus-within {
   border-color: rgba(99, 102, 241, 0.6);
-  box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.15), 0 8px 32px rgba(99, 102, 241, 0.1);
+  box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.12), 0 8px 32px rgba(99, 102, 241, 0.08);
 }
 
 .searchIcon {
   padding: 0 18px;
-  color: rgba(255, 255, 255, 0.35);
+  color: var(--text-muted);
   flex-shrink: 0;
 }
 
@@ -176,11 +186,11 @@
   background: transparent;
   border: none;
   outline: none;
-  color: white;
+  color: var(--text);
 }
 
 .searchInput::placeholder {
-  color: rgba(255, 255, 255, 0.3);
+  color: var(--text-muted);
 }
 
 .searchBtn {
@@ -212,7 +222,7 @@
 
 .keywordsLabel {
   font-size: 12px;
-  color: rgba(255, 255, 255, 0.35);
+  color: var(--text-muted);
 }
 
 .keyword {
@@ -220,9 +230,9 @@
   border-radius: 999px;
   font-size: 12px;
   font-weight: 500;
-  color: rgba(255, 255, 255, 0.55);
-  background: rgba(255, 255, 255, 0.05);
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  color: var(--text-dim);
+  background: var(--surface);
+  border: 1px solid var(--border);
   cursor: pointer;
   transition: all 0.2s ease;
 }
@@ -230,7 +240,7 @@
 .keyword:hover {
   background: rgba(129, 140, 248, 0.15);
   border-color: rgba(129, 140, 248, 0.4);
-  color: #c7d2fe;
+  color: #818cf8;
 }
 
 /* ── 스크롤 힌트 ── */
@@ -243,7 +253,7 @@
   flex-direction: column;
   align-items: center;
   gap: 6px;
-  color: rgba(255, 255, 255, 0.2);
+  color: var(--text-muted);
   font-size: 11px;
   animation: scrollBounce 2s ease-in-out infinite;
 }
