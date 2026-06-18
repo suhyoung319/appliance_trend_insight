@@ -1,0 +1,38 @@
+# macOS
+.DS_Store
+**/.DS_Store
+
+# Python
+venv/
+.venv/
+.venv-win/
+backend/venv/
+backend/.venv/
+backend/.venv-win/
+__pycache__/
+*.pyc
+*.pyo
+.pytest_cache/
+*.egg-info/
+
+# 환경변수
+.env
+.env
+backend/.env
+.env.local
+.env.*.local
+
+# Frontend (frontend/.gitignore에도 있지만 루트에서도 명시)
+frontend/node_modules/
+frontend/dist/
+
+# IDE
+.idea/
+.vscode/
+
+# ChromaDB 벡터 DB (로컬 누적 데이터, 커밋 불필요)
+chroma_db/
+backend/chroma_db/
+
+# 로컬 메모/문서 파일
+프로젝트_구조_정리.txt

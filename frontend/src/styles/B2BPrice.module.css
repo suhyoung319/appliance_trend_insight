@@ -1,0 +1,715 @@
+/* ── Page & Layout ── */
+.page {
+  height: 100vh;
+  overflow-y: auto;
+  background: var(--bg);
+  color: var(--text);
+}
+
+.layout {
+  display: flex;
+  padding-top: 80px;
+  min-height: 100vh;
+}
+
+.main {
+  flex: 1;
+  min-width: 0;
+  padding: 28px 28px 64px;
+}
+
+.sidebar {
+  width: 200px;
+  flex-shrink: 0;
+  border-left: 1px solid var(--border);
+  padding: 28px 16px;
+  position: sticky;
+  top: 80px;
+  height: calc(100vh - 80px);
+  overflow-y: auto;
+}
+
+/* ── Header ── */
+.header { margin-bottom: 24px; }
+
+.badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 4px 12px;
+  border-radius: 999px;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: #818cf8;
+  background: rgba(99, 102, 241, 0.1);
+  border: 1px solid rgba(99, 102, 241, 0.25);
+  margin-bottom: 10px;
+}
+
+.title {
+  font-size: 22px;
+  font-weight: 900;
+  letter-spacing: -0.6px;
+  color: var(--text);
+  margin-bottom: 4px;
+}
+
+.subtitle {
+  font-size: 13px;
+  color: var(--text-muted);
+}
+
+.snapDate {
+  color: #818cf8;
+  opacity: 0.8;
+}
+
+/* ── Metric cards ── */
+.metricsGrid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 12px;
+  margin-bottom: 16px;
+}
+
+.metricCard {
+  border-radius: 16px;
+  padding: 20px 18px;
+  background: var(--surface);
+  border: 1px solid var(--border-card);
+  position: relative;
+  overflow: hidden;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.metricCard::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 2px;
+  background: linear-gradient(90deg, var(--metric-color, #6366f1), transparent);
+}
+
+.metricCard:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+}
+
+.metricTitle {
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  margin-bottom: 10px;
+}
+
+.metricValue {
+  font-size: 22px;
+  font-weight: 800;
+  letter-spacing: -0.5px;
+  line-height: 1;
+  margin-bottom: 6px;
+  color: var(--metric-color, #818cf8);
+}
+
+.metricSub {
+  font-size: 10px;
+  color: var(--text-muted);
+}
+
+/* ── Charts row ── */
+.chartsRow {
+  display: grid;
+  grid-template-columns: 1.6fr 1fr;
+  gap: 14px;
+  margin-bottom: 14px;
+}
+
+/* ── Bottom row ── */
+.bottomRow {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 14px;
+}
+
+/* ── Shared card ── */
+.chartCard,
+.distCard,
+.dealsCard {
+  background: var(--surface);
+  border: 1px solid var(--border-card);
+  border-radius: 16px;
+  padding: 20px;
+}
+
+.cardTitle {
+  font-size: 14px;
+  font-weight: 800;
+  color: var(--text);
+  letter-spacing: -0.3px;
+  margin-bottom: 3px;
+}
+
+.cardSub {
+  font-size: 11px;
+  color: var(--text-muted);
+  margin-bottom: 16px;
+}
+
+.noData {
+  font-size: 12px;
+  color: var(--text-muted);
+  text-align: center;
+  padding: 24px 0;
+}
+
+/* ── Y-axis ── */
+.chartOuter {
+  display: flex;
+  gap: 6px;
+  align-items: flex-start;
+}
+
+.yAxisWrap {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: flex-end;
+  flex-shrink: 0;
+  width: 28px;
+  padding-bottom: 2px;
+}
+
+.yLabel {
+  font-size: 9px;
+  color: var(--text-muted);
+  text-align: right;
+  line-height: 1;
+  white-space: nowrap;
+}
+
+.yAxisTitle {
+  font-size: 9px;
+  color: var(--text-muted);
+  margin-bottom: 2px;
+  letter-spacing: 0.02em;
+}
+
+.chartBody {
+  flex: 1;
+  min-width: 0;
+}
+
+/* ── Price history chart ── */
+.chartLegend {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 10px;
+  color: var(--text-muted);
+  margin-bottom: 8px;
+}
+
+.legendDotInline {
+  display: inline-block;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.xAxis {
+  display: flex;
+  justify-content: space-between;
+  font-size: 9px;
+  color: var(--text-muted);
+  margin-top: 6px;
+}
+
+.firstSnap {
+  text-align: center;
+  font-size: 13px;
+  color: var(--text-muted);
+  padding: 24px 0;
+  line-height: 1.8;
+}
+
+.firstSnap span {
+  font-size: 11px;
+  opacity: 0.6;
+}
+
+/* ── Brand price chart ── */
+.brandPriceList {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.brandPriceRow {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.brandName {
+  font-size: 11px;
+  color: var(--text-muted);
+  width: 48px;
+  flex-shrink: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.brandBarTrack {
+  flex: 1;
+  height: 6px;
+  background: rgba(99, 102, 241, 0.08);
+  border-radius: 999px;
+  overflow: hidden;
+}
+
+.brandBarFill {
+  height: 100%;
+  border-radius: 999px;
+  transition: width 0.6s ease;
+  opacity: 0.85;
+}
+
+.brandAvgPrice {
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--text);
+  width: 40px;
+  text-align: right;
+  flex-shrink: 0;
+}
+
+/* ── Distribution histogram ── */
+.distChart {
+  display: flex;
+  align-items: flex-end;
+  gap: 8px;
+  height: 120px;
+  padding-bottom: 28px;
+  position: relative;
+}
+
+.distCol {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  flex: 1;
+  height: 100%;
+  justify-content: flex-end;
+}
+
+.distCount {
+  font-size: 10px;
+  font-weight: 700;
+  color: var(--text);
+  flex-shrink: 0;
+}
+
+.distBarWrap {
+  flex: 1;
+  width: 100%;
+  display: flex;
+  align-items: flex-end;
+  max-height: 70px;
+}
+
+.distBar {
+  width: 100%;
+  border-radius: 4px 4px 0 0;
+  opacity: 0.8;
+  transition: height 0.5s ease;
+}
+
+.distLabel {
+  font-size: 9px;
+  color: var(--text-muted);
+  text-align: center;
+  word-break: keep-all;
+  line-height: 1.3;
+  flex-shrink: 0;
+  width: 100%;
+}
+
+/* ── Loading / Error / Access denied ── */
+.loadingWrap {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 14px;
+  padding: 64px 0;
+  color: var(--text-muted);
+  font-size: 13px;
+}
+
+.spinner {
+  width: 28px;
+  height: 28px;
+  border: 3px solid rgba(99, 102, 241, 0.15);
+  border-top-color: #6366f1;
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+}
+
+@keyframes spin { to { transform: rotate(360deg); } }
+
+.error {
+  text-align: center;
+  padding: 40px;
+  color: #f87171;
+  font-size: 13px;
+}
+
+.accessDenied {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  padding: 80px 24px;
+  gap: 12px;
+  margin-top: 80px;
+}
+
+.accessDeniedTitle {
+  font-size: 18px;
+  font-weight: 800;
+  color: var(--text);
+  letter-spacing: -0.3px;
+}
+
+.accessDeniedBtn {
+  margin-top: 8px;
+  padding: 11px 26px;
+  border-radius: 10px;
+  font-size: 13px;
+  font-weight: 700;
+  color: white;
+  background: linear-gradient(135deg, #6366f1, #7c3aed);
+  border: none;
+  cursor: pointer;
+  box-shadow: 0 4px 16px rgba(99, 102, 241, 0.3);
+  transition: all 0.2s;
+}
+
+.accessDeniedBtn:hover {
+  box-shadow: 0 0 24px rgba(99, 102, 241, 0.45);
+  transform: translateY(-1px);
+}
+
+/* ── Sidebar ── */
+.sideSection { margin-bottom: 24px; }
+
+.sideLabel {
+  font-size: 9px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.09em;
+  color: var(--text-muted);
+  margin-bottom: 8px;
+}
+
+.sideCats {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.sideCatBtn {
+  width: 100%;
+  text-align: left;
+  padding: 8px 10px;
+  border-radius: 8px;
+  font-size: 12px;
+  font-weight: 500;
+  border: none;
+  background: transparent;
+  color: var(--text-muted);
+  cursor: pointer;
+  transition: all 0.14s ease;
+}
+
+.sideCatBtn:hover {
+  background: rgba(99, 102, 241, 0.08);
+  color: var(--text);
+}
+
+.sideCatActive {
+  background: rgba(99, 102, 241, 0.12) !important;
+  color: #818cf8 !important;
+  font-weight: 700;
+}
+
+.sideInfo {
+  border-top: 1px solid var(--border);
+  padding-top: 16px;
+  margin-bottom: 16px;
+}
+
+.sideInfoTitle {
+  font-size: 9px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.09em;
+  color: var(--text-muted);
+  margin-bottom: 6px;
+}
+
+.sideInfoDesc {
+  font-size: 11px;
+  color: var(--text-muted);
+  line-height: 1.6;
+}
+
+.sourceList {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.source {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 11px;
+  color: var(--text-muted);
+}
+
+.source::before {
+  content: '';
+  display: inline-block;
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: rgba(99, 102, 241, 0.5);
+  flex-shrink: 0;
+}
+
+/* ── AI 가격 인사이트 배너 ── */
+.insightBanner {
+  display: flex;
+  gap: 28px;
+  align-items: stretch;
+  margin-top: 14px;
+  padding: 26px 30px;
+  border-radius: 20px;
+  background: var(--surface);
+  border: 1px solid var(--sbr, rgba(16,185,129,0.28));
+  position: relative;
+  overflow: hidden;
+  transition: box-shadow 0.25s ease;
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+}
+
+.insightBanner::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--sc, #10b981), transparent);
+  opacity: 0.55;
+}
+
+.insightBanner::after {
+  content: '';
+  position: absolute;
+  top: -50px; left: -30px;
+  width: 200px; height: 200px;
+  background: radial-gradient(circle, var(--sc, #10b981), transparent 70%);
+  opacity: 0.05;
+  pointer-events: none;
+}
+
+.insightBanner:hover {
+  box-shadow: 0 8px 36px rgba(0,0,0,0.16), 0 0 0 1px var(--sbr, rgba(16,185,129,0.2));
+}
+
+.insightBannerLeft {
+  flex: 1;
+  min-width: 0;
+  position: relative;
+  z-index: 1;
+}
+
+.insightBannerLabel {
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--sc, #10b981);
+  opacity: 0.75;
+  margin-bottom: 10px;
+}
+
+.insightSignalRow {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 10px;
+}
+
+.insightSignalIcon {
+  font-size: 28px;
+  font-weight: 900;
+  color: var(--sc, #10b981);
+  line-height: 1;
+  filter: drop-shadow(0 0 10px var(--sc, #10b981));
+}
+
+.insightSignalText {
+  font-size: 28px;
+  font-weight: 900;
+  letter-spacing: -1px;
+  color: var(--sc, #10b981);
+  line-height: 1;
+}
+
+.insightReason {
+  font-size: 13px;
+  color: var(--text-dim);
+  line-height: 1.6;
+  margin-bottom: 6px;
+}
+
+.insightStrategy {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--sc, #10b981);
+  opacity: 0.85;
+}
+
+.insightBannerRight {
+  display: flex;
+  align-items: stretch;
+  gap: 24px;
+  flex-shrink: 0;
+  position: relative;
+  z-index: 1;
+  max-width: 380px;
+}
+
+.insightDivider {
+  width: 1px;
+  background: var(--border-med);
+  border-radius: 1px;
+  align-self: stretch;
+}
+
+.insightMeta {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  justify-content: center;
+  min-width: 90px;
+}
+
+.insightMetaLabel {
+  font-size: 9px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--text-muted);
+}
+
+.insightMetaValue {
+  font-size: 15px;
+  font-weight: 800;
+  color: var(--text);
+  letter-spacing: -0.3px;
+}
+
+.insightSummaryWrap {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  justify-content: center;
+  max-width: 240px;
+}
+
+.insightSummaryText {
+  font-size: 12.5px;
+  color: var(--text-dim);
+  line-height: 1.7;
+}
+
+/* ── 최저가 제품 테이블 ── */
+.dealsTable {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 12px;
+}
+
+.dealsTable thead tr {
+  border-bottom: 1px solid var(--border);
+}
+
+.dealsTable th {
+  padding: 6px 8px;
+  text-align: left;
+  font-size: 10px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--text-muted);
+}
+
+.dealsTable tbody tr {
+  border-bottom: 1px solid rgba(99, 102, 241, 0.06);
+  transition: background 0.12s;
+}
+
+.dealsTable tbody tr:hover {
+  background: rgba(99, 102, 241, 0.04);
+}
+
+.dealsRank {
+  padding: 8px;
+  color: var(--text-muted);
+  font-size: 11px;
+  width: 28px;
+}
+
+.dealsBrand {
+  padding: 8px;
+  color: #818cf8;
+  font-weight: 600;
+  white-space: nowrap;
+  width: 72px;
+}
+
+.dealsTitle {
+  padding: 8px;
+  color: var(--text);
+  max-width: 320px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.dealsTitle a {
+  color: var(--text);
+  text-decoration: none;
+}
+
+.dealsTitle a:hover {
+  color: #818cf8;
+  text-decoration: underline;
+}
+
+.dealsPrice {
+  padding: 8px;
+  font-weight: 700;
+  color: #10b981;
+  white-space: nowrap;
+  text-align: right;
+}

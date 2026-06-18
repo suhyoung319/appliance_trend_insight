@@ -1,0 +1,657 @@
+/* ── Layout ── */
+.page {
+  height: 100vh;
+  overflow-y: auto;
+  background: var(--bg);
+  color: var(--text);
+}
+
+.layout {
+  display: flex;
+  padding-top: 80px;
+  min-height: 100vh;
+}
+
+.main {
+  flex: 1;
+  min-width: 0;
+  padding: 32px 32px 80px;
+}
+
+.sidebar {
+  width: 210px;
+  flex-shrink: 0;
+  border-left: 1px solid var(--border);
+  padding: 32px 18px;
+  position: sticky;
+  top: 80px;
+  height: calc(100vh - 80px);
+  overflow-y: auto;
+}
+
+/* ── Header ── */
+.header { margin-bottom: 28px; }
+
+.badge {
+  display: inline-flex;
+  align-items: center;
+  padding: 4px 14px;
+  border-radius: 999px;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: #10b981;
+  background: rgba(16, 185, 129, 0.1);
+  border: 1px solid rgba(16, 185, 129, 0.2);
+  margin-bottom: 12px;
+}
+
+.title {
+  font-size: 24px;
+  font-weight: 900;
+  letter-spacing: -0.7px;
+  color: var(--text);
+  margin-bottom: 6px;
+  line-height: 1.2;
+}
+
+.subtitle {
+  font-size: 13px;
+  color: var(--text-muted);
+}
+
+/* ── Metrics row ── */
+.metricsRow {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 14px;
+  margin-bottom: 16px;
+}
+
+.metricCard {
+  background: var(--surface);
+  border: 1px solid var(--border-card);
+  border-radius: 16px;
+  padding: 20px 18px;
+  position: relative;
+  overflow: hidden;
+  transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+}
+
+/* first card gets green top line, others get indigo/cyan */
+.metricCard:first-child::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 2px;
+  background: linear-gradient(90deg, #10b981, transparent);
+}
+
+.metricCard:nth-child(2)::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 2px;
+  background: linear-gradient(90deg, #a855f7, transparent);
+}
+
+.metricCard:nth-child(3)::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 2px;
+  background: linear-gradient(90deg, #06b6d4, transparent);
+}
+
+.metricCard:hover {
+  transform: translateY(-2px);
+  border-color: var(--border-card-hover);
+  box-shadow: 0 8px 28px rgba(0, 0, 0, 0.14);
+}
+
+.metricLabel {
+  font-size: 10px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--text-muted);
+  margin-bottom: 10px;
+}
+
+.trendMain {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 6px;
+}
+
+.trendIcon {
+  font-size: 24px;
+  font-weight: 900;
+  line-height: 1;
+}
+
+.trendText {
+  font-size: 24px;
+  font-weight: 800;
+  letter-spacing: -0.5px;
+  line-height: 1;
+}
+
+.metricVal {
+  font-size: 26px;
+  font-weight: 800;
+  letter-spacing: -0.6px;
+  line-height: 1;
+  margin-bottom: 6px;
+}
+
+.metricSub {
+  font-size: 10px;
+  color: var(--text-muted);
+}
+
+/* ── Chart card ── */
+.chartCard {
+  background: var(--surface);
+  border: 1px solid var(--border-card);
+  border-radius: 18px;
+  padding: 24px;
+  margin-bottom: 16px;
+  position: relative;
+  overflow: hidden;
+  transition: box-shadow 0.2s ease;
+}
+
+.chartCard::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(16,185,129,0.4), transparent);
+}
+
+.chartCard:hover {
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.12);
+}
+
+.chartHeader {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  margin-bottom: 20px;
+}
+
+.cardTitle {
+  font-size: 14px;
+  font-weight: 800;
+  color: var(--text);
+  letter-spacing: -0.3px;
+  margin-bottom: 3px;
+}
+
+.cardSub {
+  font-size: 11px;
+  color: var(--text-muted);
+  margin-bottom: 18px;
+}
+
+/* Chart sub under header needs no bottom margin */
+.chartHeader + * .cardSub,
+.chartHeader .cardSub {
+  margin-bottom: 0;
+}
+
+.ragBadge {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  padding: 3px 10px;
+  border-radius: 999px;
+  background: rgba(168, 85, 247, 0.1);
+  color: #c084fc;
+  border: 1px solid rgba(168, 85, 247, 0.2);
+  flex-shrink: 0;
+}
+
+.ragBadge::before {
+  content: '◈';
+  font-size: 8px;
+}
+
+/* ── Y-axis ── */
+.chartOuter {
+  display: flex;
+  gap: 6px;
+  align-items: flex-start;
+}
+
+.yAxisWrap {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: flex-end;
+  flex-shrink: 0;
+  width: 26px;
+  padding-bottom: 2px;
+}
+
+.yLabel {
+  font-size: 9px;
+  color: var(--text-muted);
+  text-align: right;
+  line-height: 1;
+  white-space: nowrap;
+}
+
+.yAxisTitle {
+  font-size: 9px;
+  color: var(--text-muted);
+  margin-bottom: 2px;
+  letter-spacing: 0.02em;
+}
+
+.chartBody {
+  flex: 1;
+  min-width: 0;
+}
+
+/* ── X-axis ── */
+.xAxis {
+  display: flex;
+  margin-top: 6px;
+  font-size: 9px;
+  color: var(--text-muted);
+}
+
+.xAxisHist {
+  flex: 1;
+  display: flex;
+  justify-content: space-between;
+}
+
+.xAxisFcast {
+  flex: 0 0 30%;
+  display: flex;
+  justify-content: space-between;
+}
+
+/* ── Chart legend ── */
+.chartLegend {
+  display: flex;
+  gap: 20px;
+  margin-top: 14px;
+}
+
+.legendItem {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  font-size: 11px;
+  color: var(--text-muted);
+}
+
+.legendLine {
+  display: inline-block;
+  width: 24px;
+  height: 2px;
+  border-radius: 1px;
+}
+
+.legendDash {
+  display: inline-block;
+  width: 24px;
+  height: 2px;
+  background: repeating-linear-gradient(
+    90deg,
+    #10b981 0px, #10b981 6px,
+    transparent 6px, transparent 10px
+  );
+}
+
+.legendBand {
+  display: inline-block;
+  width: 22px;
+  height: 10px;
+  border-radius: 3px;
+  background: rgba(16, 185, 129, 0.15);
+  border: 1px solid rgba(16, 185, 129, 0.25);
+}
+
+.noData {
+  font-size: 12px;
+  color: var(--text-muted);
+  text-align: center;
+  padding: 28px 0;
+}
+
+/* ── RAG card ── */
+.ragCard {
+  background: var(--surface);
+  border: 1px solid rgba(168, 85, 247, 0.18);
+  border-radius: 16px;
+  padding: 20px 24px;
+  margin-bottom: 14px;
+  position: relative;
+  overflow: hidden;
+  transition: box-shadow 0.2s ease;
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+}
+
+.ragCard::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0;
+  width: 3px;
+  height: 100%;
+  background: linear-gradient(180deg, #a855f7, #7c3aed);
+  opacity: 0.7;
+}
+
+.ragCard::after {
+  content: '';
+  position: absolute;
+  top: -40px; left: -20px;
+  width: 160px;
+  height: 160px;
+  background: radial-gradient(circle, #a855f7, transparent 70%);
+  opacity: 0.04;
+  pointer-events: none;
+}
+
+.ragCard:hover {
+  box-shadow: 0 6px 24px rgba(168, 85, 247, 0.1);
+}
+
+.ragHeader {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 12px;
+}
+
+.ragIcon {
+  font-size: 14px;
+  color: #a855f7;
+}
+
+.ragTitle {
+  font-size: 12px;
+  font-weight: 700;
+  color: #c084fc;
+  letter-spacing: 0.02em;
+}
+
+.ragText {
+  font-size: 13.5px;
+  color: var(--text-dim, rgba(255,255,255,0.55));
+  line-height: 1.8;
+}
+
+/* ── Recommendation ── */
+.recCard {
+  background: rgba(99, 102, 241, 0.04);
+  border: 1px solid rgba(99, 102, 241, 0.12);
+  border-radius: 14px;
+  padding: 18px 22px;
+  margin-bottom: 16px;
+  position: relative;
+}
+
+.recCard::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(99,102,241,0.3), transparent);
+}
+
+.recLabel {
+  font-size: 10px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: #818cf8;
+  margin-bottom: 8px;
+}
+
+.recText {
+  font-size: 13.5px;
+  color: var(--text-dim, rgba(255,255,255,0.55));
+  line-height: 1.65;
+}
+
+/* ── Forecast Table ── */
+.tableCard {
+  background: var(--surface);
+  border: 1px solid var(--border-card);
+  border-radius: 16px;
+  padding: 22px;
+  transition: box-shadow 0.2s ease;
+}
+
+.tableCard:hover {
+  box-shadow: 0 6px 24px rgba(0, 0, 0, 0.1);
+}
+
+.fcastTable {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 12.5px;
+}
+
+.fcastTable thead tr {
+  border-bottom: 1px solid var(--border);
+}
+
+.fcastTable th {
+  font-size: 9px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--text-muted);
+  padding: 8px 10px;
+  text-align: left;
+}
+
+.fcastTable td {
+  padding: 10px 10px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+  transition: background 0.12s;
+}
+
+.fcastTable tbody tr:hover td {
+  background: rgba(99, 102, 241, 0.04);
+}
+
+.fcastTable tbody tr:last-child td {
+  border-bottom: none;
+}
+
+.periodCell {
+  font-weight: 600;
+  color: var(--text);
+  font-size: 12.5px;
+}
+
+.predCell { text-align: left; }
+
+.predBadge {
+  display: inline-block;
+  padding: 3px 12px;
+  border-radius: 999px;
+  font-size: 11.5px;
+  font-weight: 700;
+  color: #10b981;
+  background: rgba(16, 185, 129, 0.1);
+  border: 1px solid rgba(16, 185, 129, 0.2);
+}
+
+.ciCell {
+  font-size: 11.5px;
+  color: var(--text-muted);
+}
+
+/* ── Loading ── */
+.loadingWrap {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+  padding: 80px 0;
+  color: var(--text-muted);
+  font-size: 13px;
+}
+
+.spinner {
+  width: 30px;
+  height: 30px;
+  border: 2.5px solid rgba(16, 185, 129, 0.12);
+  border-top-color: #10b981;
+  border-radius: 50%;
+  animation: spin 0.75s linear infinite;
+}
+
+@keyframes spin { to { transform: rotate(360deg); } }
+
+.error {
+  text-align: center;
+  padding: 48px;
+  color: #f87171;
+  font-size: 13px;
+}
+
+/* ── Access denied ── */
+.denied {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  padding: 100px 24px;
+  gap: 14px;
+  margin-top: 80px;
+}
+
+.deniedTitle {
+  font-size: 20px;
+  font-weight: 800;
+  color: var(--text);
+  letter-spacing: -0.4px;
+}
+
+.deniedDesc {
+  font-size: 13.5px;
+  color: var(--text-muted);
+}
+
+.deniedBtn {
+  margin-top: 10px;
+  padding: 12px 28px;
+  border-radius: 12px;
+  font-size: 13.5px;
+  font-weight: 700;
+  color: white;
+  background: linear-gradient(135deg, #10b981, #059669);
+  border: none;
+  cursor: pointer;
+  box-shadow: 0 4px 20px rgba(16, 185, 129, 0.35);
+  transition: all 0.2s;
+}
+
+.deniedBtn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 28px rgba(16, 185, 129, 0.5);
+}
+
+/* ── Sidebar ── */
+.sideSection { margin-bottom: 28px; }
+
+.sideLabel {
+  font-size: 9px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--text-muted);
+  margin-bottom: 10px;
+  padding-left: 2px;
+}
+
+.sideCats,
+.sidePeriods {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.sideCatBtn,
+.sidePeriodBtn {
+  width: 100%;
+  text-align: left;
+  padding: 8px 10px;
+  border-radius: 8px;
+  font-size: 12.5px;
+  font-weight: 500;
+  border: none;
+  background: transparent;
+  color: var(--text-muted);
+  cursor: pointer;
+  transition: all 0.14s ease;
+}
+
+.sideCatBtn:hover,
+.sidePeriodBtn:hover {
+  background: rgba(16, 185, 129, 0.07);
+  color: var(--text);
+}
+
+.sideCatActive,
+.sidePeriodActive {
+  background: rgba(16, 185, 129, 0.12) !important;
+  color: #10b981 !important;
+  font-weight: 700;
+}
+
+.sideInfo {
+  border-top: 1px solid var(--border);
+  padding-top: 22px;
+}
+
+.sideInfoTitle {
+  font-size: 9px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--text-muted);
+  margin-bottom: 12px;
+  padding-left: 2px;
+}
+
+.sourceList {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.source {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 11.5px;
+  color: var(--text-muted);
+}
+
+.source::before {
+  content: '';
+  display: inline-block;
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: rgba(16, 185, 129, 0.55);
+  flex-shrink: 0;
+}
