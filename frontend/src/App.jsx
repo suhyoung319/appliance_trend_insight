@@ -16,6 +16,9 @@ import MyPage from './pages/MyPage'
 import B2BHome from './pages/B2BHome'
 import B2BDashboard from './pages/B2BDashboard'
 import B2BPrice from './pages/B2BPrice'
+import B2BReport from './pages/B2BReport'
+import B2BForecast from './pages/B2BForecast'
+import Chat from './pages/Chat'
 
 export default function App() {
   return (
@@ -39,6 +42,9 @@ export default function App() {
             <Route path="/b2b"               element={<B2BHome />} />
             <Route path="/b2b/dashboard"     element={<B2BDashboard />} />
             <Route path="/b2b/price"         element={<B2BPrice />} />
+            <Route path="/b2b/report"        element={<B2BReport />} />
+            <Route path="/b2b/forecast"      element={<B2BForecast />} />
+            <Route path="/chat"              element={<Chat />} />
           </Routes>
         </BrowserRouter>
       </AuthProvider>

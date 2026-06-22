@@ -333,17 +333,19 @@ function MiniPriceChart({ history }) {
   )
 }
 
-function ProductPriceIntel({ title }) {
+function ProductPriceIntel({ title, token }) {
   const [data, setData]       = useState(null)
   const [loading, setLoading] = useState(true)
 
   useEffect(() => {
-    if (!title) return
-    fetch(`${API_BASE}/api/b2b/product-price?title=${encodeURIComponent(title)}`)
+    if (!title || !token) { setLoading(false); return }
+    fetch(`${API_BASE}/api/b2b/product-price?title=${encodeURIComponent(title)}`, {
+      headers: { Authorization: `Bearer ${token}` },
+    })
       .then(r => r.json())
       .then(d => { setData(d); setLoading(false) })
       .catch(() => setLoading(false))
-  }, [])
+  }, [title, token])
 
   if (loading) return (
     <div className={`${styles.section} ${styles.sectionPt}`}>
@@ -476,7 +478,7 @@ function AiLoginGate({ onLogin }) {
 export default function ProductReport() {
   const navigate = useNavigate()
   const { state } = useLocation()
-  const { isLoggedIn, token } = useAuth()
+  const { isLoggedIn, token, user } = useAuth()
   // ProductList에서 navigate(`/report/${id}`, { state: { product, category } })로 전달한 데이터
   const product  = state?.product
   const category = state?.category ?? '제품'
@@ -647,8 +649,10 @@ export default function ProductReport() {
           </div>
         </div>
 
-        {/* 제품별 가격 인텔리전스 — 멀티몰 비교 + 히스토리 */}
-        <ProductPriceIntel title={product.title} />
+        {/* 제품별 가격 인텔리전스 — B2B 유저 전용 */}
+        {user?.user_type === 'b2b' && user?.status === 'active' && (
+          <ProductPriceIntel title={product.title} token={token} />
+        )}
 
         {/* 수집 중 로딩 표시 — 완료되면 사라지고 데이터 섹션이 나타남 */}
         {reportLoading && (

@@ -190,7 +190,27 @@ export default function Recommend() {
             {error && (
               <div className={styles.errorWrap}>
                 <p className={styles.errorText}>{error}</p>
-                <button className={styles.retryBtn} onClick={handleSubmit}>다시 시도</button>
+                <div className={styles.errorBtns}>
+                  {/* 에러 메시지에서 제안 예산 추출해 슬라이더 자동 이동 */}
+                  {(() => {
+                    const m = error.match(/(\d+)만원 이상/)
+                    if (!m) return null
+                    const suggestWan = parseInt(m[1], 10)
+                    const suggestIdx = BUDGET_STEPS.findIndex(s => s >= suggestWan)
+                    if (suggestIdx < 0) return null
+                    return (
+                      <button className={styles.suggestBtn} onClick={() => {
+                        setBudgetIdx(suggestIdx)
+                        setError(null)
+                      }}>
+                        예산 {suggestWan}만원으로 올리기
+                      </button>
+                    )
+                  })()}
+                  <button className={styles.retryBtn} onClick={() => setError(null)}>
+                    조건 다시 선택
+                  </button>
+                </div>
               </div>
             )}
 

@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from 'react'
+import { useState, useEffect } from 'react'
 import styles from '../../styles/Hero.module.css'
 
 // 타이핑 애니메이션에서 순환할 문장 목록
@@ -8,10 +8,6 @@ const TYPING_PHRASES = [
   '로봇청소기 리뷰 분석 중',
   '스타일러 소비자 반응 확인 중',
 ]
-
-
-// 검색창 아래 인기 키워드 태그
-const POPULAR_KEYWORDS = ['에어컨 🔥', '냉장고', '로봇청소기', '스타일러', '건조기', '식기세척기']
 
 // 타이핑 → 지우기 → 다음 문장 반복하는 커스텀 훅
 function useTypingEffect(phrases) {
@@ -48,7 +44,6 @@ function useTypingEffect(phrases) {
 
 export default function Hero() {
   const typingText = useTypingEffect(TYPING_PHRASES)
-  const inputRef = useRef(null)  // 인기 키워드 클릭 시 검색창에 값 넣기 위한 ref
 
   return (
     <section className={styles.hero}>
@@ -76,38 +71,6 @@ export default function Hero() {
           지금 이 순간,&nbsp;
           <span className={styles.typingText}>{typingText}</span>
         </p>
-
-        {/* 제품 검색창 */}
-        <div className={styles.searchWrap}>
-          <span className={styles.searchIcon}>
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none"
-              stroke="currentColor" strokeWidth="2.5" strokeLinecap="round">
-              <circle cx="11" cy="11" r="7" />
-              <line x1="16.5" y1="16.5" x2="22" y2="22" />
-            </svg>
-          </span>
-          <input
-            ref={inputRef}
-            type="text"
-            className={styles.searchInput}
-            placeholder="제품명을 입력하세요 (예: 삼성 비스포크 냉장고)"
-          />
-          <button className={styles.searchBtn}>분석하기</button>
-        </div>
-
-        {/* 인기 키워드 태그: 클릭하면 검색창에 자동 입력 */}
-        <div className={styles.keywords}>
-          <span className={styles.keywordsLabel}>인기</span>
-          {POPULAR_KEYWORDS.map(kw => (
-            <button
-              key={kw}
-              className={styles.keyword}
-              onClick={() => { inputRef.current.value = kw.replace(' 🔥', '') }}
-            >
-              {kw}
-            </button>
-          ))}
-        </div>
 
       </div>
 

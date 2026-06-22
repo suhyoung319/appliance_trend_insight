@@ -41,6 +41,61 @@ function TrendBadge({ diff }) {
   return              <span className={`${styles.trendBadge} ${styles.stable}`}>→ 안정적</span>
 }
 
+function HotKeywords({ items, onCatClick }) {
+  const catMap = {}
+  items.forEach(item => {
+    if (!catMap[item.category]) catMap[item.category] = { total: 0, count: 0 }
+    catMap[item.category].total += (item.trend_score || 0)
+    catMap[item.category].count++
+  })
+  const catRanked = Object.entries(catMap)
+    .map(([cat, { total, count }]) => ({ cat, avg: Math.round(total / count) }))
+    .sort((a, b) => b.avg - a.avg)
+    .slice(0, 8)
+
+  const tags = [...new Set(items.map(i => i.tag).filter(Boolean))].slice(0, 8)
+
+  const now = new Date()
+  const timeStr = `${String(now.getHours()).padStart(2, '0')}:${String(now.getMinutes()).padStart(2, '0')} 기준`
+
+  const TOP_COLORS = ['#fbbf24', '#94a3b8', '#fb923c']
+
+  return (
+    <aside className={styles.hotBox}>
+      <div className={styles.hotHead}>
+        <span className={styles.hotBullet} />
+        <span className={styles.hotTitle}>인기 검색어</span>
+        <span className={styles.hotTime}>{timeStr}</span>
+      </div>
+      <ol className={styles.hotList}>
+        {catRanked.map(({ cat, avg }, i) => {
+          const col = CAT_COLOR[cat] ?? '#6366f1'
+          const rank = i + 1
+          return (
+            <li key={cat} className={styles.hotItem} onClick={() => onCatClick(cat)}>
+              <span className={styles.hotRank} style={rank <= 3 ? { color: TOP_COLORS[rank - 1] } : undefined}>
+                {rank}
+              </span>
+              <span className={styles.hotKeyword}>{cat}</span>
+              <span className={styles.hotScore} style={{ color: col }}>{avg}</span>
+            </li>
+          )
+        })}
+      </ol>
+      {tags.length > 0 && (
+        <div className={styles.hotTagSection}>
+          <p className={styles.hotTagLabel}>트렌딩 태그</p>
+          <div className={styles.hotTagList}>
+            {tags.map(tag => (
+              <span key={tag} className={styles.hotTag}>#{tag}</span>
+            ))}
+          </div>
+        </div>
+      )}
+    </aside>
+  )
+}
+
 function RankRow({ item, rank, onClick }) {
   const rs = RANK_STYLE[rank]
   const col = CAT_COLOR[item.category] ?? '#6366f1'
@@ -89,7 +144,9 @@ function RankRow({ item, rank, onClick }) {
 
       <div className={styles.scoreWrap}>
         {item.tag && <span className={styles.aiTag}>{item.tag}</span>}
-        <span className={styles.scoreNum}>{Math.round(item.trend_score ?? 0)}</span>
+        <span className={styles.scoreNum}>
+          {item.trend_score > 0 ? Math.round(item.trend_score) : '—'}
+        </span>
         <span className={styles.scoreLabel}>트렌드 지수</span>
       </div>
     </div>
@@ -156,29 +213,35 @@ export default function Trend() {
           ))}
         </div>
 
-        {loading && (
-          <div className={styles.loadingWrap}>
-            <div className={styles.spinner} />
-            <p>트렌드 분석 중...</p>
-          </div>
-        )}
+        <div className={styles.body}>
+          <div className={styles.mainCol}>
+            {loading && (
+              <div className={styles.loadingWrap}>
+                <div className={styles.spinner} />
+                <p>트렌드 분석 중...</p>
+              </div>
+            )}
 
-        {error && <p className={styles.error}>{error}</p>}
+            {error && <p className={styles.error}>{error}</p>}
 
-        {!loading && items.length > 0 && (
-          <div className={styles.list}>
-            {items.map((item, i) => (
-              <RankRow
-                key={item.id ?? i}
-                item={item}
-                rank={i + 1}
-                onClick={() => navigate(`/report/${item.id}`, {
-                  state: { product: item, category: item.category },
-                })}
-              />
-            ))}
+            {!loading && items.length > 0 && (
+              <div className={styles.list}>
+                {items.map((item, i) => (
+                  <RankRow
+                    key={item.id ?? i}
+                    item={item}
+                    rank={i + 1}
+                    onClick={() => navigate(`/report/${item.id}`, {
+                      state: { product: item, category: item.category },
+                    })}
+                  />
+                ))}
+              </div>
+            )}
           </div>
-        )}
+
+          <HotKeywords items={items} onCatClick={cat => load(cat)} />
+        </div>
 
       </div>
     </div>

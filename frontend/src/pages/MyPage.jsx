@@ -18,15 +18,17 @@ export default function MyPage() {
 
   const [profile, setProfile] = useState(null)
   const [loading, setLoading] = useState(true)
+  const [fetchError, setFetchError] = useState(null)
   const [alerts, setAlerts] = useState([])
   const [alertDeleting, setAlertDeleting] = useState({})
 
   useEffect(() => {
     if (!isLoggedIn) return
+    setFetchError(null)
     fetch(`${API}/api/user/me`, { headers: { Authorization: `Bearer ${token}` } })
-      .then(r => r.json())
+      .then(r => { if (!r.ok) throw new Error(r.status); return r.json() })
       .then(data => { setProfile(data); setLoading(false) })
-      .catch(() => setLoading(false))
+      .catch(() => { setFetchError('프로필을 불러올 수 없습니다'); setLoading(false) })
 
     fetch(`${API}/api/user/alerts`, { headers: { Authorization: `Bearer ${token}` } })
       .then(r => r.json())
@@ -94,6 +96,8 @@ export default function MyPage() {
               <div className={s.spinner} />
               <span>정보 불러오는 중...</span>
             </div>
+          ) : fetchError ? (
+            <div className={s.fetchError}>{fetchError}</div>
           ) : (
             <div className={s.section}>
               <p className={s.sectionTitle}>계정 정보</p>

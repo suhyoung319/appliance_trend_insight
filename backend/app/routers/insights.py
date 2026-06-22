@@ -2,7 +2,7 @@ from fastapi import APIRouter, Depends, HTTPException
 from pydantic import BaseModel
 from typing import TYPE_CHECKING
 
-from app.dependencies import get_rag
+from app.dependencies import get_rag_optional
 from app.services.insight_service import analyze
 
 if TYPE_CHECKING:
@@ -30,10 +30,17 @@ class InsightResponse(BaseModel):
 router = APIRouter(prefix="/api/insights", tags=["insights"])
 
 
+@router.get("/rag-status")
+async def rag_status(rag: "RAGService | None" = Depends(get_rag_optional)):
+    if rag is None:
+        return {"status": "disabled", "count": 0}
+    return {"status": "ok", "count": rag.collection.count()}
+
+
 @router.post("/analyze", response_model=InsightResponse)
 async def analyze_insights(
     body: InsightRequest,
-    rag: "RAGService" = Depends(get_rag),
+    rag: "RAGService | None" = Depends(get_rag_optional),
 ) -> InsightResponse:
     try:
         result = await analyze(

@@ -1,7 +1,7 @@
 import { useState, useRef, useEffect } from 'react'
 import styles from '../../styles/Navbar.module.css'
 import { useTheme } from '../../context/ThemeContext'
-import { useNavigate } from 'react-router-dom'
+import { useNavigate, useLocation } from 'react-router-dom'
 import { useAuth } from '../../context/AuthContext'
 
 const SERVICE_ITEMS = [
@@ -41,8 +41,77 @@ const SERVICE_ITEMS = [
       </svg>
     ),
   },
+  {
+    label: 'AI 트렌드 분석',
+    desc: 'RAG 기반 가전 트렌드 리포트 생성',
+    path: '/chat',
+    icon: (
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+        <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z" />
+      </svg>
+    ),
+  },
 ]
 
+
+const B2B_ITEMS = [
+  {
+    label: '시장 분석',
+    desc: '카테고리별 검색 관심도·트렌드',
+    path: '/b2b/dashboard',
+    icon: (
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+        <rect x="3" y="3" width="7" height="7" rx="1" />
+        <rect x="14" y="3" width="7" height="7" rx="1" />
+        <rect x="3" y="14" width="7" height="7" rx="1" />
+        <rect x="14" y="14" width="7" height="7" rx="1" />
+      </svg>
+    ),
+  },
+  {
+    label: '가격 분석',
+    desc: '브랜드·구간별 가격 현황 분석',
+    path: '/b2b/price',
+    icon: (
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+        <line x1="12" y1="1" x2="12" y2="23" />
+        <path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6" />
+      </svg>
+    ),
+  },
+  {
+    label: '미래 예측',
+    desc: '선형 회귀 기반 수요 트렌드 예측',
+    path: '/b2b/forecast',
+    icon: (
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+        <polyline points="3 17 7 11 11 14 15 8 21 14" />
+        <polyline points="17 8 21 8 21 12" />
+      </svg>
+    ),
+  },
+  {
+    label: 'AI 전략 리포트',
+    desc: 'AI가 생성하는 시장 분석 리포트',
+    path: '/b2b/report',
+    icon: (
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+        <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" />
+        <polyline points="14 2 14 8 20 8" />
+        <line x1="16" y1="13" x2="8" y2="13" />
+        <line x1="16" y1="17" x2="8" y2="17" />
+      </svg>
+    ),
+  },
+]
+
+const _ALL_APPLIANCE_TERMS = [
+  '에어컨', '냉장고', '세탁기', '건조기', '공기청정기', '로봇청소기', '식기세척기',
+  'TV', '텔레비전', '에어프라이어', '전기밥솥', '밥솥', '전자레인지', '커피머신',
+  '믹서기', '전기포트', '사운드바', '스피커', '프로젝터', '가습기', '제습기',
+  '선풍기', '히터', '전기히터', '헤어드라이어', '청소기', '냉난방기', '세탁건조기',
+  '인덕션', '전기레인지', '오븐', '스타일러', '의류관리기', '정수기', '제빙기',
+]
 
 const PRODUCT_CATEGORIES = [
   {
@@ -69,11 +138,14 @@ const PRODUCT_CATEGORIES = [
 
 export default function Navbar() {
   const navigate = useNavigate()
+  const location = useLocation()
   const [mode, setMode] = useState(() => localStorage.getItem('navMode') ?? 'b2c')
+  const B2B_ONLY_PATHS = ['/b2b', '/b2b/dashboard', '/b2b/price', '/b2b/report', '/b2b/forecast']
   const [isSearchOpen, setIsSearchOpen] = useState(false)
   const [scrollProgress, setScrollProgress] = useState(0)
   const [isHidden, setIsHidden] = useState(false)
   const [openDropdown, setOpenDropdown] = useState(null)
+  const [searchError, setSearchError] = useState('')
   const lastScrollY = useRef(0)
   const searchInputRef = useRef(null)
   const navRef = useRef(null)
@@ -100,18 +172,26 @@ export default function Navbar() {
     sessionStorage.setItem('navModeSet', '1')
   }, [user])
 
+  const isB2BPage = location.pathname.startsWith('/b2b')
+
+  // 라우트 이동 시 항상 네비바 표시 (이전 페이지 스크롤 상태 초기화)
+  useEffect(() => {
+    setIsHidden(false)
+  }, [location.pathname])
+
   useEffect(() => {
     const container = document.querySelector('[data-scroll-container]')
     if (!container) return
     const onScroll = () => {
       const { scrollTop, scrollHeight, clientHeight } = container
       setScrollProgress(Math.round((scrollTop / (scrollHeight - clientHeight)) * 100))
-      setIsHidden(scrollTop > 0)
+      // B2B 페이지에서는 숨기지 않음
+      if (!isB2BPage) setIsHidden(scrollTop > 0)
       lastScrollY.current = scrollTop
     }
     container.addEventListener('scroll', onScroll)
     return () => container.removeEventListener('scroll', onScroll)
-  }, [])
+  }, [isB2BPage])
 
   useEffect(() => {
     function handleClickOutside(e) {
@@ -138,10 +218,17 @@ export default function Navbar() {
     if (e.key === 'Enter') {
       const q = searchInputRef.current?.value.trim()
       if (!q) return
+      const isAppliance = _ALL_APPLIANCE_TERMS.some(t => q.includes(t) || t.includes(q))
+      if (!isAppliance) {
+        setSearchError('가전제품 키워드를 입력해주세요 (예: 에어컨, 냉장고)')
+        return
+      }
+      setSearchError('')
       setOpenDropdown(null)
       closeSearch()
       navigate(`/products/${encodeURIComponent(q)}`)
     }
+    setSearchError('')
   }
 
   function toggleDropdown(key) {
@@ -163,7 +250,26 @@ export default function Navbar() {
           <div className={styles.logo}
             onClick={() => navigate(mode === 'b2b' ? '/b2b' : '/')}
             style={{ cursor: 'pointer' }}>
-            <div className={styles.logoIcon}>A</div>
+            <svg className={styles.logoIcon} viewBox="0 0 48 52" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <defs>
+                <linearGradient id="lgGrad" x1="0" y1="0" x2="1" y2="1">
+                  <stop offset="0%" stopColor="#9333ea"/>
+                  <stop offset="100%" stopColor="#ec4899"/>
+                </linearGradient>
+              </defs>
+              {/* 플러그 프롱 (왼쪽) */}
+              <rect x="13" y="2" width="8" height="13" rx="3.5" fill="url(#lgGrad)"/>
+              {/* 플러그 프롱 (오른쪽) */}
+              <rect x="27" y="2" width="8" height="13" rx="3.5" fill="url(#lgGrad)"/>
+              {/* 바디 */}
+              <rect x="3" y="11" width="42" height="37" rx="10" fill="url(#lgGrad)"/>
+              {/* 막대 차트 — 왼쪽 */}
+              <rect x="10" y="31" width="8" height="10" rx="2.5" fill="white" fillOpacity="0.9"/>
+              {/* 막대 차트 — 가운데 */}
+              <rect x="20" y="23" width="8" height="18" rx="2.5" fill="white" fillOpacity="0.9"/>
+              {/* 막대 차트 — 오른쪽 */}
+              <rect x="30" y="27" width="8" height="14" rx="2.5" fill="white" fillOpacity="0.9"/>
+            </svg>
             <span className={styles.logoText}>가전무쌍</span>
             {mode === 'b2b' && <span className={styles.b2bBadge}>B2B</span>}
           </div>
@@ -190,20 +296,13 @@ export default function Navbar() {
               트렌드
             </li>
             {mode === 'b2b' && (
-              <>
-                <li
-                  className={styles.navItem}
-                  onClick={() => { setOpenDropdown(null); navigate('/b2b/dashboard') }}
-                >
-                  시장 분석
-                </li>
-                <li
-                  className={styles.navItem}
-                  onClick={() => { setOpenDropdown(null); navigate('/b2b/price') }}
-                >
-                  가격 분석
-                </li>
-              </>
+              <li
+                className={`${styles.navItem} ${openDropdown === 'b2b' ? styles.navItemActive : ''}`}
+                onClick={() => toggleDropdown('b2b')}
+              >
+                B2B 분석
+                <span className={`${styles.navCaret} ${openDropdown === 'b2b' ? styles.navCaretOpen : ''}`}>▾</span>
+              </li>
             )}
           </ul>
 
@@ -236,13 +335,17 @@ export default function Navbar() {
                 </svg>
               </button>
             </div>
+            {searchError && (
+              <div className={styles.searchError}>{searchError}</div>
+            )}
 
             <div className={styles.toggle}>
+              <div className={`${styles.toggleSlider} ${mode === 'b2b' ? styles.toggleSliderRight : ''}`} />
               <button
                 onClick={() => {
                   setMode('b2c')
                   localStorage.setItem('navMode', 'b2c')
-                  navigate('/')
+                  navigate('/', { replace: true })
                 }}
                 className={`${styles.toggleBtn} ${mode === 'b2c' ? styles.toggleBtnActive : ''}`}
               >
@@ -252,7 +355,7 @@ export default function Navbar() {
                 onClick={() => {
                   setMode('b2b')
                   localStorage.setItem('navMode', 'b2b')
-                  navigate('/b2b')
+                  navigate('/b2b', { replace: true })
                 }}
                 className={`${styles.toggleBtn} ${mode === 'b2b' ? styles.toggleBtnActive : ''}`}
               >
@@ -318,7 +421,7 @@ export default function Navbar() {
               <div
                 key={item.path}
                 className={styles.serviceCard}
-                onClick={() => { setOpenDropdown(null); navigate(item.path) }}
+                onClick={() => { setOpenDropdown(null); navigate(item.path, B2B_ONLY_PATHS.includes(location.pathname) ? { replace: true } : {}) }}
               >
                 <div className={styles.serviceCardIcon}>{item.icon}</div>
                 <div>
@@ -330,6 +433,23 @@ export default function Navbar() {
           </div>
         </div>
 
+        <div className={`${styles.dropdown} ${openDropdown === 'b2b' ? styles.dropdownOpen : ''}`}>
+          <div className={styles.dropdownB2bGrid}>
+            {B2B_ITEMS.map(item => (
+              <div
+                key={item.path}
+                className={styles.b2bCard}
+                onClick={() => { setOpenDropdown(null); navigate(item.path) }}
+              >
+                <div className={styles.b2bCardIcon}>{item.icon}</div>
+                <div>
+                  <p className={styles.b2bCardLabel}>{item.label}</p>
+                  <p className={styles.b2bCardDesc}>{item.desc}</p>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
 
       </div>
     </>

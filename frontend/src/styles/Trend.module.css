@@ -5,9 +5,139 @@
 }
 
 .container {
-  max-width: 860px;
+  max-width: 1080px;
   margin: 0 auto;
   padding: 80px 24px 80px;
+}
+
+.body {
+  display: flex;
+  gap: 20px;
+  align-items: flex-start;
+}
+
+.mainCol {
+  flex: 1;
+  min-width: 0;
+}
+
+/* ── 인기 검색어 사이드바 ── */
+.hotBox {
+  width: 196px;
+  flex-shrink: 0;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  padding: 16px;
+  position: sticky;
+  top: 100px;
+}
+
+.hotHead {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-bottom: 14px;
+}
+
+.hotBullet {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: #f97316;
+  flex-shrink: 0;
+  animation: pulse 1.8s ease-in-out infinite;
+}
+
+.hotTitle {
+  font-size: 13px;
+  font-weight: 800;
+  color: var(--text);
+  flex: 1;
+  letter-spacing: -0.3px;
+}
+
+.hotTime {
+  font-size: 9px;
+  color: var(--text-muted);
+  white-space: nowrap;
+}
+
+.hotList {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+}
+
+.hotItem {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 7px 8px;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background 0.14s;
+}
+
+.hotItem:hover {
+  background: rgba(99, 102, 241, 0.06);
+}
+
+.hotRank {
+  font-size: 12px;
+  font-weight: 800;
+  color: var(--text-muted);
+  width: 16px;
+  text-align: center;
+  flex-shrink: 0;
+}
+
+.hotKeyword {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text);
+  flex: 1;
+}
+
+.hotScore {
+  font-size: 10px;
+  font-weight: 700;
+  opacity: 0.8;
+}
+
+.hotTagSection {
+  border-top: 1px solid var(--border);
+  margin-top: 14px;
+  padding-top: 14px;
+}
+
+.hotTagLabel {
+  font-size: 9px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--text-muted);
+  margin: 0 0 8px;
+}
+
+.hotTagList {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 5px;
+}
+
+.hotTag {
+  font-size: 11px;
+  font-weight: 600;
+  color: #818cf8;
+  background: rgba(99, 102, 241, 0.08);
+  border: 1px solid rgba(99, 102, 241, 0.2);
+  padding: 3px 9px;
+  border-radius: 999px;
+  cursor: default;
 }
 .header {
   display: flex;

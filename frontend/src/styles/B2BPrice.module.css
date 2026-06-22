@@ -1,662 +1,253 @@
-/* ── Page & Layout ── */
-.page {
-  height: 100vh;
-  overflow-y: auto;
-  background: var(--bg);
-  color: var(--text);
+/* ── Page ── */
+.page { height: 100vh; background: var(--b2b-page); color: var(--b2b-text); overflow-y: auto;
+  overflow-x: hidden; }
+.container { max-width: 1320px; margin: 0 auto; padding: 100px 24px 80px; }
+.layout { display: flex; gap: 32px; align-items: flex-start; }
+.main { flex: 1; min-width: 0; }
+
+/* ── Top Bar ── */
+.topBar { margin-bottom: 36px; }
+.searchRow {
+  display: flex; align-items: center;
+  background: var(--b2b-search); border-radius: 999px;
+  padding: 0 22px; height: 54px;
+  max-width: 540px; margin: 0 auto 16px; gap: 12px;
+}
+.searchIcon { color: var(--b2b-text3); flex-shrink: 0; }
+.searchSelect {
+  flex: 1; background: none; border: none; outline: none;
+  font-size: 18px; font-weight: 600; color: var(--b2b-text);
+  text-align: center; cursor: pointer;
+  appearance: none; -webkit-appearance: none;
+}
+.periodRow { display: flex; gap: 6px; justify-content: center; align-items: center; }
+.pdfBtn {
+  flex-shrink: 0; width: 36px; height: 36px;
+  display: flex; align-items: center; justify-content: center;
+  background: rgba(0,0,0,0.06); border: 1px solid rgba(0,0,0,0.1);
+  border-radius: 10px; color: var(--b2b-text3); cursor: pointer; transition: background 0.15s;
+}
+.pdfBtn:hover { background: rgba(0,0,0,0.1); }
+.pdfBtn svg { width: 18px; height: 18px; }
+
+/* ── Sections ── */
+.section { margin-bottom: 20px; }
+.sectionLabel {
+  font-size: 11px; font-weight: 700; color: var(--b2b-muted);
+  text-transform: uppercase; letter-spacing: 0.1em;
+  margin-bottom: 10px; padding-left: 4px;
 }
 
-.layout {
-  display: flex;
-  padding-top: 80px;
-  min-height: 100vh;
+/* ── Cards ── */
+.card {
+  background: var(--b2b-card); border-radius: 20px; padding: 24px;
+  box-shadow: var(--b2b-shadow);
 }
+.cardTitle { font-size: 16px; font-weight: 800; color: var(--b2b-text); margin-bottom: 4px; }
+.cardSub { font-size: 11px; color: var(--b2b-muted); margin-bottom: 16px; }
 
-.main {
-  flex: 1;
-  min-width: 0;
-  padding: 24px 24px 60px;
+/* ── Dark Brand Card ── */
+.darkCard {
+  background: #1a1a1a; border-radius: 20px; padding: 24px;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.12), 0 4px 20px rgba(0,0,0,0.1);
 }
+.darkCardTitle { font-size: 16px; font-weight: 800; color: #fff; margin-bottom: 4px; }
+.darkCardSub { font-size: 11px; color: rgba(255,255,255,0.4); margin-bottom: 16px; }
 
-.sidebar {
-  width: 210px;
-  flex-shrink: 0;
-  border-left: 1px solid var(--border);
-  padding: 24px 16px;
-  position: sticky;
-  top: 80px;
-  height: calc(100vh - 80px);
-  overflow-y: auto;
-
-  scrollbar-width: none;
-  -ms-overflow-style: none;
-}
-
-.sidebar::-webkit-scrollbar {
-  display: none;
-}
-
-/* ── Header ── */
-.header { margin-bottom: 18px; }
-
-.badge {
-  display: inline-block;
-  padding: 3px 10px;
-  border-radius: 999px;
-  font-size: 9px;
-  font-weight: 700;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-  color: #22c55e;
-  background: rgba(34, 197, 94, 0.1);
-  border: 1px solid rgba(34, 197, 94, 0.25);
-  margin-bottom: 8px;
-}
-
-.title {
-  font-size: 20px;
-  font-weight: 800;
-  letter-spacing: -0.4px;
-  color: var(--text);
-  margin-bottom: 3px;
-}
-
-.subtitle {
-  font-size: 12px;
-  color: var(--text-muted);
-}
-
-.snapDate {
-  color: rgba(129, 140, 248, 0.7);
-}
-
-/* ── Metric cards ── */
-.metricsGrid {
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 12px;
-  margin-bottom: 14px;
-}
-
+/* ── Metrics 3-col ── */
+.metricsRow { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; }
 .metricCard {
-  border-radius: 16px;
-  padding: 24px 24px;
-  min-height: 140px;
-  color: white;
+  background: var(--b2b-card); border-radius: 20px; padding: 22px 18px;
+  box-shadow: var(--b2b-shadow);
+}
+.metricLabel { font-size: 11px; font-weight: 700; color: var(--b2b-muted); text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 10px; }
+.metricVal { font-size: 22px; font-weight: 900; letter-spacing: -0.5px; line-height: 1.1; margin-bottom: 6px; }
+.metricSub { font-size: 11px; color: var(--b2b-muted); }
+
+/* ── Two-col grid ── */
+.twoCol { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+
+/* ── Brand Table (dark) ── */
+.brandTable { width: 100%; border-collapse: collapse; font-size: 13px; }
+.brandTable thead tr { border-bottom: 1px solid rgba(255,255,255,0.08); }
+.brandTable th {
+  font-size: 10px; font-weight: 700; text-transform: uppercase;
+  letter-spacing: 0.08em; color: rgba(255,255,255,0.35);
+  padding: 6px 10px; text-align: left;
+}
+.brandTable td { padding: 10px 10px; border-bottom: 1px solid rgba(255,255,255,0.05); }
+.brandTable tbody tr:last-child td { border-bottom: none; }
+
+.btBrand { display: flex; align-items: center; gap: 8px; font-weight: 600; color: #fff; }
+.btDot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; }
+.btPrice { color: rgba(255,255,255,0.7); font-weight: 600; }
+
+.tierBadge {
+  display: inline-block; padding: 3px 10px; border-radius: 999px;
+  font-size: 11px; font-weight: 700;
 }
 
-.metricTitle {
-  font-size: 15px;
-  font-weight: 700;
-  letter-spacing: 0;
-  text-transform: none;
-  opacity: 0.95;
-  margin-bottom: 14px;
-}
-
-.metricValue {
-  font-size: 33px;
-  font-weight: 800;
-  letter-spacing: -0.7px;
-  line-height: 1;
-  margin-bottom: 10px;
-}
-
-.metricSub {
-  font-size: 15px;
-  opacity: 0.8;
-}
-
-/* ── Charts row ── */
-.chartsRow {
-  display: grid;
-  grid-template-columns: 1.6fr 1fr;
-  gap: 12px;
-  margin-bottom: 12px;
-}
-
-/* ── Bottom row ── */
-.bottomRow {
-  display: grid;
-  grid-template-columns: 1fr 1.4fr;
-  gap: 12px;
-}
-
-/* ── Shared card ── */
-.chartCard,
-.distCard,
-.dealsCard {
-  background: var(--surface);
-  border: 1px solid var(--border);
-  border-radius: 14px;
-  padding: 18px 18px;
-}
-
-.cardTitle {
-  font-size: 18px;
-  font-weight: 800;
-  color: var(--text);
-  margin-bottom: 3px;
-}
-
-.cardSub {
-  font-size: 13px;
-  color: var(--text-muted);
-  margin-bottom: 16px;
-}
-
-.noData {
-  font-size: 12px;
-  color: var(--text-muted);
-  text-align: center;
-  padding: 20px 0;
-}
-
-/* ── Price history chart ── */
-.chartLegend {
-  display: flex;
-  align-items: center;
-  gap: 5px;
-  font-size: 12px;
-  color: var(--text-muted);
-  margin-bottom: 12px;
-}
-
-.legendDotInline {
-  display: inline-block;
-  width: 9px;
-  height: 9px;
-  border-radius: 50%;
-  flex-shrink: 0;
-}
-
-.xAxis {
-  display: flex;
-  justify-content: space-between;
-  font-size: 12px;
-  color: var(--text-muted);
-  margin-top: 4px;
-}
-
-.firstSnap {
-  text-align: center;
-  font-size: 13px;
-  color: var(--text-muted);
-  padding: 24px 0;
-  line-height: 1.8;
-}
-
-.firstSnap span {
-  font-size: 11px;
-  opacity: 0.6;
-}
-
-/* ── Brand price chart ── */
-.brandPriceList {
-  display: flex;
-  flex-direction: column;
-  gap: 13px;
-}
-
-.brandPriceRow {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-}
-
-.brandName {
-  font-size: 13px;
-  color: var(--text-muted);
-  width: 65px;
-  flex-shrink: 0;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-}
-
-.brandBarTrack {
-  flex: 1;
-  height: 7px;
-  background: var(--border);
-  border-radius: 999px;
-  overflow: hidden;
-}
-
-.brandBarFill {
-  height: 100%;
-  border-radius: 999px;
-  transition: width 0.6s ease;
-  opacity: 0.85;
-}
-
-.brandAvgPrice {
-  font-size: 14px;
-  font-weight: 700;
-  color: var(--text);
-  width: 48px;
-  text-align: right;
-  flex-shrink: 0;
-}
-
-/* ── Distribution histogram ── */
-.distChart {
-  display: flex;
-  align-items: flex-end;
-  gap: 8px;
-  height: 260px;
-  padding-top: 120px;
-  padding-bottom: 0;
-  position: relative;
-}
-
-.distCol {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 4px;
-  flex: 1;
-  height: auto;
-  justify-content: flex-end;
-}
-
-.distCount {
-  font-size: 16px;
-  font-weight: 700;
-  color: var(--text);
-  flex-shrink: 0;
-}
-
-.distBarWrap {
-  width: 100%;
-  display: flex;
-  align-items: flex-end;
-  height: 170px;
-  max-height: none;
-}
-
-.distBar {
-  width: 100%;
-  border-radius: 4px 4px 0 0;
-  opacity: 0.8;
-  transition: height 0.5s ease;
-}
-
-.distLabel {
-  font-size: 13px;
-  color: var(--text-muted);
-  text-align: center;
-  word-break: keep-all;
-  line-height: 1.3;
-  flex-shrink: 0;
-  width: 100%;
-}
-
-/* ── Top deals table ── */
-.dealsTable {
-  width: 100%;
-  border-collapse: collapse;
-  font-size: 12px;
-}
-
-.dealsTable thead tr {
-  border-bottom: 1px solid var(--border);
-}
-
+/* ── Deals Table ── */
+.dealsTable { width: 100%; border-collapse: collapse; font-size: 13px; }
+.dealsTable thead tr { border-bottom: 1px solid var(--b2b-line); }
 .dealsTable th {
-  font-size: 9px;
-  font-weight: 700;
-  text-transform: uppercase;
-  letter-spacing: 0.07em;
-  color: var(--text-muted);
-  padding: 5px 6px;
-  text-align: left;
+  font-size: 10px; font-weight: 700; text-transform: uppercase;
+  letter-spacing: 0.08em; color: var(--b2b-muted); padding: 8px 12px; text-align: left;
 }
+.dealsTable td { padding: 11px 12px; border-bottom: 1px solid var(--b2b-line); }
+.dealsTable tbody tr:last-child td { border-bottom: none; }
 
-.dealsTable td {
-  padding: 6px 6px;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.03);
-  vertical-align: middle;
+
+.dtRank { font-weight: 700; color: var(--b2b-muted); width: 32px; }
+.dtBrand { font-weight: 700; color: #6366f1; }
+.dtTitle a { color: var(--b2b-text); text-decoration: none; }
+.dtTitle a:hover { text-decoration: underline; }
+.dtPrice { font-weight: 700; color: #10b981; white-space: nowrap; }
+
+/* ── AI 가격 인사이트 Banner ── */
+.insightBanner {
+  border-radius: 20px; padding: 24px 28px;
+  display: flex; gap: 28px; align-items: flex-start;
+  box-shadow: var(--b2b-shadow);
 }
-
-[data-theme='light'] .dealsTable td {
-  border-bottom-color: rgba(0, 0, 0, 0.04);
+.insightLeft { flex: 1; min-width: 0; }
+.insightSignalRow { display: flex; align-items: center; gap: 12px; margin-bottom: 10px; }
+.insightSignal { font-size: 26px; font-weight: 900; letter-spacing: -0.5px; }
+.insightBrandBadge {
+  display: inline-block; padding: 3px 12px; border-radius: 999px;
+  background: rgba(0,0,0,0.06); font-size: 12px; font-weight: 700; color: var(--b2b-text2);
 }
-
-.rankCell {
-  font-size: 10px;
-  font-weight: 700;
-  color: var(--text-muted);
-  width: 18px;
+.insightReason { font-size: 13.5px; color: var(--b2b-text2); line-height: 1.6; margin-bottom: 6px; }
+.insightStrategy { font-size: 12.5px; color: var(--b2b-text3); line-height: 1.6; font-style: italic; }
+.insightRight {
+  min-width: 220px; max-width: 300px; flex-shrink: 0;
+  border-left: 1px solid rgba(0,0,0,0.07); padding-left: 24px;
 }
+.insightSummary { font-size: 12.5px; color: var(--b2b-text2); line-height: 1.75; }
 
-.dealTitle {
-  font-size: 11px;
-  font-weight: 500;
-  color: var(--text);
-  max-width: 160px;
+/* ── 가격 변동률 Card ── */
+.priceChangeBox {
+  display: flex; flex-direction: column; gap: 14px; padding-top: 4px;
 }
-
-.dealBrand {
-  font-size: 11px;
-  color: var(--text-muted);
-  white-space: nowrap;
+.priceChangeRow { display: flex; flex-direction: column; gap: 4px; }
+.priceChangeTimeLabel {
+  font-size: 11px; font-weight: 700; text-transform: uppercase;
+  letter-spacing: 0.08em; color: var(--b2b-muted);
 }
-
-.dealPrice {
-  font-size: 12px;
-  font-weight: 700;
-  color: #22c55e;
-  white-space: nowrap;
+.priceChangePastVal {
+  font-size: 28px; font-weight: 900; letter-spacing: -0.5px; color: var(--b2b-text3);
 }
-
-.dealLink {
-  font-size: 10px;
-  font-weight: 600;
-  color: #818cf8;
-  text-decoration: none;
-  white-space: nowrap;
-  padding: 3px 8px;
-  border-radius: 6px;
-  border: 1px solid rgba(99, 102, 241, 0.3);
-  transition: all 0.15s ease;
+.priceChangeCurrentVal {
+  font-size: 28px; font-weight: 900; letter-spacing: -0.5px; color: var(--b2b-text);
 }
+.priceChangeDivider { width: 100%; height: 1px; background: var(--b2b-line); }
+.priceChangePct { font-size: 30px; font-weight: 900; letter-spacing: -1px; }
+.priceChangeUp   { color: #ef4444; }
+.priceChangeDown { color: #10b981; }
 
-.dealLink:hover {
-  background: rgba(99, 102, 241, 0.1);
-}
-
-/* ── Loading / Error / Access denied ── */
-.loadingWrap {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 14px;
-  padding: 60px 0;
-  color: var(--text-muted);
-  font-size: 13px;
-}
-
+/* ── Loading ── */
 .spinner {
-  width: 26px;
-  height: 26px;
-  border: 3px solid rgba(34, 197, 94, 0.2);
-  border-top-color: #22c55e;
-  border-radius: 50%;
-  animation: spin 0.8s linear infinite;
+  width: 28px; height: 28px;
+  border: 3px solid rgba(99,102,241,0.15); border-top-color: #6366f1;
+  border-radius: 50%; animation: spin 0.8s linear infinite;
 }
-
 @keyframes spin { to { transform: rotate(360deg); } }
+@keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.4; } }
+.loadingWrap {
+  display: flex; flex-direction: column; align-items: center;
+  gap: 14px; padding: 80px 0; color: var(--b2b-muted); font-size: 13px;
+}
+.error { text-align: center; padding: 40px; color: #ef4444; font-size: 13px; }
+.noData { font-size: 12px; color: var(--b2b-muted); text-align: center; padding: 24px 0; }
 
-.error {
-  text-align: center;
-  padding: 40px;
-  color: #f87171;
-  font-size: 13px;
+/* ── Access Denied ── */
+.denied {
+  display: flex; flex-direction: column; align-items: center;
+  text-align: center; padding: 120px 24px; gap: 14px;
+}
+.deniedTitle { font-size: 20px; font-weight: 800; color: var(--b2b-text); }
+.deniedDesc { font-size: 14px; color: var(--b2b-muted); }
+.deniedBtn {
+  margin-top: 10px; padding: 12px 28px; border-radius: 12px;
+  font-size: 14px; font-weight: 700; color: #fff;
+  background: #6366f1; border: none; cursor: pointer; transition: opacity 0.15s;
+}
+.deniedBtn:hover { opacity: 0.85; }
+
+/* ── Print ── */
+@media print {
+  .no-print { display: none !important; }
+  .page { background: var(--b2b-card); }
+  .card, .darkCard, .metricCard { box-shadow: none; border: 1px solid #e8e8ed; }
 }
 
-.accessDenied {
+/* ── Responsive ── */
+@media (max-width: 760px) {
+  .metricsRow { grid-template-columns: repeat(2, 1fr); }
+  .twoCol { grid-template-columns: 1fr; }
+}
+
+/* ── Section Label Row (분석 제품 수 인라인) ── */
+.sectionLabelRow { display: flex; align-items: baseline; gap: 10px; margin-bottom: 14px; }
+.sectionLabelRow .sectionLabel { margin-bottom: 0; }
+.sectionMeta { font-size: 11px; color: var(--b2b-muted); }
+
+/* ── 가격 수준별 브랜드 비중 바 ── */
+.tierBars { display: flex; flex-direction: column; gap: 14px; padding: 4px 0; }
+.tierBarRow { display: flex; align-items: center; gap: 12px; }
+.tierBarLabel { font-size: 12px; color: var(--b2b-text2); min-width: 148px; flex-shrink: 0; }
+.tierBarTrack {
+  flex: 1; height: 8px; background: var(--b2b-border);
+  border-radius: 999px; overflow: hidden;
+}
+.tierBarFill { height: 100%; border-radius: 999px; transition: width 0.5s ease; }
+.tierBarPct { font-size: 12px; font-weight: 800; min-width: 36px; text-align: right; }
+
+/* ── AI 가격 인사이트 (①②③④) ── */
+.insightCard {
+  border-radius: 16px;
+  border: 1px solid;
+  padding: 28px;
   display: flex;
   flex-direction: column;
-  align-items: center;
-  text-align: center;
-  padding: 80px 24px;
-  gap: 10px;
-  margin-top: 80px;
+  gap: 20px;
 }
-
-.accessDeniedTitle {
-  font-size: 17px;
-  font-weight: 700;
-  color: var(--text);
-}
-
-.accessDeniedBtn {
-  margin-top: 8px;
-  padding: 10px 24px;
-  border-radius: 8px;
-  font-size: 13px;
-  font-weight: 700;
-  color: white;
-  background: linear-gradient(135deg, #6366f1, #a855f7);
-  border: none;
-  cursor: pointer;
-}
-
-/* ── Sidebar ── */
-.sideSection { margin-bottom: 24px; }
-
-.sideLabel {
-  font-size: 12px;
-  font-weight: 700;
-  text-transform: uppercase;
-  letter-spacing: 0.09em;
-  color: var(--text-muted);
-  margin-bottom: 8px;
-}
-
-.sideCats {
-  display: flex;
-  flex-direction: column;
-  gap: 1px;
-}
-
-.sideCatBtn {
-  width: 100%;
-  text-align: left;
-  padding: 10px 14px;
-  border-radius: 7px;
-  font-size: 15px;
-  font-weight: 600;
-  border: none;
-  background: transparent;
-  color: var(--text-muted);
-  cursor: pointer;
-  transition: all 0.14s ease;
-}
-
-.sideCatBtn:hover {
-  background: rgba(99, 102, 241, 0.08);
-  color: var(--text);
-}
-
-.sideCatActive {
-  background: rgba(99, 102, 241, 0.12) !important;
-  color: #818cf8 !important;
-  font-weight: 700;
-}
-
-.sideInfo {
-  border-top: 1px solid var(--border);
-  padding-top: 20px;
-  margin-bottom: 16px;
-}
-
-.sideInfoTitle {
-  font-size: 12px;
-  font-weight: 700;
-  text-transform: uppercase;
-  letter-spacing: 0.09em;
-  color: var(--text-muted);
-  margin-bottom: 10px;
-}
-
-.sideInfoDesc {
-  font-size: 14px;
-  color: var(--text-muted);
-  line-height: 1.6;
-}
-
-.sourceList {
-  display: flex;
-  flex-direction: column;
-  gap: 6px;
-}
-
-.source {
-  display: flex;
-  align-items: center;
-  gap: 6px;
-  font-size: 14px;
-  color: var(--text-muted);
-}
-
-.source::before {
-  content: '';
-  display: inline-block;
-  width: 5px;
-  height: 5px;
-  border-radius: 50%;
-  background: rgba(99, 102, 241, 0.5);
-  flex-shrink: 0;
-}
-
-/* ── Price Positioning ── */
-.positionWrap {
-  display: grid;
-  grid-template-columns: 1.25fr 1fr;
-  gap: 18px;
-  margin-top: 8px;
-}
-
-.positionGroups {
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
-}
-
-.positionGroup {
-  display: flex;
-  justify-content: space-between;
-  gap: 14px;
-  padding: 12px 14px;
-  border-radius: 12px;
-  background: rgba(99, 102, 241, 0.06);
-  border: 1px solid rgba(99, 102, 241, 0.12);
-}
-
-.positionLabel {
-  font-size: 14px;
-  font-weight: 800;
-  color: var(--text);
-  margin-bottom: 3px;
-}
-
-.positionDesc {
-  font-size: 11px;
-  color: var(--text-muted);
-}
-
-.positionBrands {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: flex-end;
-  align-content: flex-start;
-  gap: 6px;
-  min-width: 160px;
-}
-
-.positionChip {
-  padding: 5px 9px;
-  border-radius: 999px;
-  font-size: 11px;
-  font-weight: 700;
-  color: #a5b4fc;
-  background: rgba(99, 102, 241, 0.12);
-  border: 1px solid rgba(99, 102, 241, 0.25);
-}
-
-.positionEmpty {
-  font-size: 11px;
-  color: var(--text-muted);
-}
-
-/* 오른쪽 도넛 차트 */
-.positionShare {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 18px;
-  padding: 16px;
-  border-radius: 12px;
-  background: rgba(255, 255, 255, 0.025);
-  border: 1px solid var(--border);
-}
-
-.positionDonut {
-  width: 132px;
-  height: 132px;
-  border-radius: 50%;
-  position: relative;
-  flex-shrink: 0;
-  box-shadow: 0 16px 30px rgba(0, 0, 0, 0.22);
-}
-
-.positionDonut::after {
-  content: '';
-  position: absolute;
-  inset: 18px;
-  border-radius: 50%;
-  background: #111827;
-}
-
-.donutCenter {
-  position: absolute;
-  inset: 0;
-  z-index: 1;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-}
-
-.donutCenter strong {
-  font-size: 24px;
+.insightHeader { display: flex; align-items: center; gap: 14px; }
+.insightSignalBig {
+  font-size: 28px;
   font-weight: 900;
-  color: var(--text);
-  line-height: 1;
+  letter-spacing: -0.5px;
 }
-
-.donutCenter span {
-  margin-top: 4px;
-  font-size: 11px;
-  font-weight: 700;
-  color: var(--text-muted);
+.insightPoints { display: flex; flex-direction: column; gap: 12px; }
+.insightPointRow { display: flex; gap: 10px; align-items: flex-start; }
+.insightNum {
+  font-size: 18px;
+  font-weight: 900;
+  flex-shrink: 0;
+  line-height: 1.4;
 }
-
-.donutLegend {
-  display: flex;
-  flex-direction: column;
-  gap: 9px;
-  min-width: 110px;
+.insightPointText {
+  font-size: 14px;
+  color: var(--b2b-text2);
+  line-height: 1.7;
+  margin: 0;
+  padding-top: 1px;
 }
-
-.donutLegendRow {
-  display: grid;
-  grid-template-columns: 10px 1fr 36px;
-  align-items: center;
-  gap: 8px;
-  font-size: 12px;
-  color: var(--text-muted);
+.insightSummaryBox {
+  padding-top: 16px;
+  border-top: 1px solid var(--b2b-line);
 }
-
-.donutLegendRow strong {
+.insightSummaryText {
   font-size: 13px;
-  color: var(--text);
-  text-align: right;
+  color: var(--b2b-text3);
+  line-height: 1.75;
+  margin: 0;
 }
 
-.donutDot {
-  width: 9px;
-  height: 9px;
-  border-radius: 50%;
-}
-
-@media (max-width: 768px) {
-  .positionWrap {
-    grid-template-columns: 1fr;
-  }
-
-  .positionShare {
-    flex-direction: column;
-  }
+/* ── 빈 예비 공간 ── */
+.emptyPlaceholder {
+  height: 200px;
+  border: 1.5px dashed var(--b2b-border);
+  border-radius: 16px;
+  background: transparent;
 }

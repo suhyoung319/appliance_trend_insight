@@ -180,6 +180,13 @@
 }
 
 @keyframes spin { to { transform: rotate(360deg); } }
+
+.fetchError {
+  text-align: center;
+  padding: 40px 0;
+  font-size: 13px;
+  color: #ef4444;
+}
 .btnRow {
   display: flex;
   gap: 10px;

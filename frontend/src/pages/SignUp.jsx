@@ -12,6 +12,35 @@ const STEPS = [
   { label: '프로필',   icon: '👤' },
 ]
 
+function EyeIcon({ hidden }) {
+  return (
+    <svg
+      width="20"
+      height="20"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    >
+      {hidden ? (
+        <>
+          <path d="M17.94 17.94A10.94 10.94 0 0 1 12 20C5 20 2 12 2 12a20.29 20.29 0 0 1 5.06-5.94" />
+          <path d="M9.9 4.24A10.94 10.94 0 0 1 12 4c7 0 10 8 10 8a20.78 20.78 0 0 1-2.16 3.19" />
+          <path d="M14.12 14.12A3 3 0 0 1 9.88 9.88" />
+          <path d="M1 1l22 22" />
+        </>
+      ) : (
+        <>
+          <path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12z" />
+          <circle cx="12" cy="12" r="3" />
+        </>
+      )}
+    </svg>
+  )
+}
+
 function getPwStrength(pw) {
   if (!pw) return null
   let score = 0
@@ -101,7 +130,7 @@ export default function Signup() {
 
   const canNext = [
     !!email,
-    code.length === 6,
+    code.length === 6 && countdown.active,
     password.length >= 6,
     userType === 'b2c' ? !!nickname : !!companyName && !!businessType,
   ][step]
@@ -204,7 +233,7 @@ export default function Signup() {
       </div>
 
       <div className={`${styles.card} ${s.card}`}>
-        <div className={styles.logo}>
+        <div className={styles.logo} onClick={() => navigate('/')}>
           <div className={styles.logoIcon}>A</div>
           <span className={styles.logoText}>가전무쌍</span>
         </div>
@@ -303,7 +332,7 @@ export default function Signup() {
                   onKeyDown={e => { if (!e.nativeEvent.isComposing && e.key === 'Enter') next() }} />
                 <label htmlFor="password" className={styles.floatLabel}>비밀번호 (6자 이상)</label>
                 <button type="button" className={styles.eyeBtn} onClick={() => setShowPw(v => !v)}>
-                  {showPw ? '🙈' : '👁️'}
+                  <EyeIcon hidden={!showPw} />
                 </button>
               </div>
               {password && pwStrength && (

@@ -17,3 +17,7 @@ def get_rag() -> "RAGService":
     if _rag is None:
         raise HTTPException(status_code=503, detail="RAG service is not available")
     return _rag
+
+
+def get_rag_optional() -> "RAGService | None":
+    return _rag

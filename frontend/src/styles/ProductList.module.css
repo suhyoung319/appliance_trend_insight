@@ -268,3 +268,36 @@
   color: white;
   font-weight: 700;
 }
+
+.invalidCategory {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  padding: 120px 24px;
+  text-align: center;
+}
+.invalidTitle {
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--text);
+  margin: 0;
+}
+.invalidDesc {
+  font-size: 14px;
+  color: var(--text-muted);
+  margin: 0;
+}
+.invalidBtn {
+  margin-top: 8px;
+  padding: 10px 24px;
+  border-radius: 12px;
+  background: linear-gradient(135deg, #6366f1, #a855f7);
+  color: #fff;
+  font-size: 14px;
+  font-weight: 600;
+  border: none;
+  cursor: pointer;
+  transition: opacity 0.15s;
+}
+.invalidBtn:hover { opacity: 0.85; }

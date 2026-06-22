@@ -8,6 +8,14 @@ import { API_BASE } from '../config'
 
 const PAGE_SIZE = 15
 
+const VALID_APPLIANCE_TERMS = [
+  '에어컨', '냉장고', '세탁기', '건조기', '공기청정기', '로봇청소기', '식기세척기',
+  'TV', '텔레비전', '에어프라이어', '전기밥솥', '밥솥', '전자레인지', '커피머신',
+  '믹서기', '전기포트', '사운드바', '스피커', '프로젝터', '가습기', '제습기',
+  '선풍기', '히터', '전기히터', '헤어드라이어', '청소기', '냉난방기', '세탁건조기',
+  '인덕션', '전기레인지', '오븐', '스타일러', '의류관리기', '정수기', '제빙기',
+]
+
 export default function ProductList() {
   const { category } = useParams()
   const navigate = useNavigate()
@@ -28,9 +36,11 @@ export default function ProductList() {
   // sort.client는 클라이언트 정렬이라 API 재요청 필요없음
   useEffect(() => {
     setLoading(true)
+    const controller = new AbortController()
     const query = searchTerm ? `${category} ${searchTerm}` : category
     fetch(
-      `${API_BASE}/api/naver/products?query=${encodeURIComponent(query)}&page=${page}&display=${PAGE_SIZE}&sort=${sort.api}&category=${encodeURIComponent(category)}`
+      `${API_BASE}/api/naver/products?query=${encodeURIComponent(query)}&page=${page}&display=${PAGE_SIZE}&sort=${sort.api}&category=${encodeURIComponent(category)}`,
+      { signal: controller.signal }
     )
       .then(r => r.json())
       .then(data => {
@@ -38,7 +48,8 @@ export default function ProductList() {
         setTotal(data.total ?? 0)
         setLoading(false)
       })
-      .catch(() => setLoading(false))
+      .catch(e => { if (e.name !== 'AbortError') setLoading(false) })
+    return () => controller.abort()
   }, [category, page, searchTerm, sort.label])
 
   const filteredProducts = products
@@ -70,6 +81,24 @@ export default function ProductList() {
     // body에 overflow:hidden이 걸려있어서 window.scrollTo가 안 됨
     // → .page div(pageRef)를 직접 스크롤 위로 올림
     pageRef.current?.scrollTo({ top: 0, behavior: 'smooth' })
+  }
+
+  const isValidCategory = VALID_APPLIANCE_TERMS.some(t => category.includes(t) || t.includes(category))
+
+  if (!isValidCategory) {
+    return (
+      <div className={styles.page}>
+        <Navbar />
+        <div className={styles.container}>
+          <div className={styles.invalidCategory}>
+            <span style={{ fontSize: 40 }}>🏠</span>
+            <p className={styles.invalidTitle}>가전제품 카테고리만 조회할 수 있습니다</p>
+            <p className={styles.invalidDesc}>에어컨, 냉장고, 세탁기 등 가전제품 키워드로 검색해주세요</p>
+            <button className={styles.invalidBtn} onClick={() => navigate('/')}>홈으로 돌아가기</button>
+          </div>
+        </div>
+      </div>
+    )
   }
 
   return (

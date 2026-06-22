@@ -4,8 +4,10 @@
   --bg: #06060f;
   --surface: rgba(255, 255, 255, 0.04);
   --surface-hover: rgba(255, 255, 255, 0.07);
-  --border: rgba(255, 255, 255, 0.08);
-  --border-med: rgba(255, 255, 255, 0.12);
+  --border: rgba(255, 255, 255, 0.09);
+  --border-med: rgba(255, 255, 255, 0.15);
+  --border-card: rgba(99, 102, 241, 0.16);
+  --border-card-hover: rgba(99, 102, 241, 0.32);
   --text: #ffffff;
   --text-muted: rgba(255, 255, 255, 0.38);
   --text-dim: rgba(255, 255, 255, 0.55);
@@ -15,15 +17,48 @@
 
 [data-theme="light"] {
   --bg: #f0f2f8;
-  --surface: rgba(255, 255, 255, 0.72);
-  --surface-hover: rgba(255, 255, 255, 0.9);
-  --border: rgba(0, 0, 0, 0.07);
-  --border-med: rgba(0, 0, 0, 0.12);
+  --surface: rgba(255, 255, 255, 0.82);
+  --surface-hover: rgba(255, 255, 255, 0.96);
+  --border: rgba(0, 0, 0, 0.08);
+  --border-med: rgba(0, 0, 0, 0.14);
+  --border-card: rgba(99, 102, 241, 0.2);
+  --border-card-hover: rgba(99, 102, 241, 0.38);
   --text: #1a1a2e;
   --text-muted: rgba(0, 0, 0, 0.38);
   --text-dim: rgba(0, 0, 0, 0.55);
   --nav-bg: rgba(240, 242, 248, 0.88);
   --nav-border: rgba(0, 0, 0, 0.08);
+}
+
+/* ── B2B Design Tokens (dark default) ── */
+:root {
+  --b2b-page: #0d0d18;
+  --b2b-card: #1a1a2c;
+  --b2b-surface: #222238;
+  --b2b-search: rgba(255,255,255,0.07);
+  --b2b-text: #f0f0f5;
+  --b2b-text2: #c0c0d4;
+  --b2b-text3: #8888a8;
+  --b2b-muted: #60607a;
+  --b2b-line: rgba(255,255,255,0.07);
+  --b2b-shadow: 0 1px 4px rgba(0,0,0,0.4), 0 4px 20px rgba(0,0,0,0.25);
+  --b2b-period-active-bg: #f0f0f5;
+  --b2b-period-active-color: #0d0d18;
+}
+
+[data-theme="light"] {
+  --b2b-page: #f2f2f7;
+  --b2b-card: #ffffff;
+  --b2b-surface: #f0f0f5;
+  --b2b-search: #e2e2e8;
+  --b2b-text: #1a1a1a;
+  --b2b-text2: #3a3a3c;
+  --b2b-text3: #6e6e73;
+  --b2b-muted: #8e8e93;
+  --b2b-line: #e8e8ed;
+  --b2b-shadow: 0 1px 4px rgba(0,0,0,0.06), 0 4px 16px rgba(0,0,0,0.04);
+  --b2b-period-active-bg: #1a1a1a;
+  --b2b-period-active-color: #fff;
 }
 
 * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -37,6 +72,39 @@ body {
 }
 
 #root { width: 100%; }
+
+/* B2B PDF 다운로드 버튼 */
+[class*="pdfBtn"] {
+  flex-shrink: 0;
+  width: 36px;
+  height: 36px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(99, 102, 241, 0.1);
+  border: 1px solid rgba(99, 102, 241, 0.25);
+  border-radius: 10px;
+  color: #818cf8;
+  cursor: pointer;
+  transition: background 0.15s, transform 0.1s;
+  align-self: flex-start;
+  margin-top: 4px;
+}
+[class*="pdfBtn"]:hover {
+  background: rgba(99, 102, 241, 0.2);
+  transform: translateY(-1px);
+}
+[class*="pdfBtn"] svg { width: 18px; height: 18px; }
+
+@media print {
+  body { overflow: visible !important; background: #fff !important; color: #000 !important; }
+  .no-print, [class*="navOuter"], [class*="sidebar"], [class*="printBtn"],
+  [class*="categoryBar"], [class*="periodBar"], [class*="gate"] { display: none !important; }
+  [class*="page"] { height: auto !important; overflow: visible !important; }
+  [class*="layout"] { flex-direction: column !important; padding: 0 !important; }
+  [class*="main"] { padding: 16px !important; }
+  * { box-shadow: none !important; }
+}
 @keyframes blobFloat1 {
   0%, 100% { transform: translate(0, 0) scale(1); }
   33%       { transform: translate(50px, -40px) scale(1.08); }
